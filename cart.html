@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: #f5f5f5;
+      position: relative;
+      padding-bottom: 60px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* ===== NAVIGATION ===== */
+    .top-nav {
+      background: #ff6b00;
+      padding: 15px 0;
+      position: relative;
+    }
+    
+    .top-nav .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      margin: 0 15px;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    
+    .search-bar button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      cursor: pointer;
+    }
+    
+    /* ===== CART PAGE STYLES ===== */
+    .cart-header {
+      margin: 30px 0;
+      text-align: center;
+    }
+    
+    .cart-header h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .cart-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .cart-items {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .cart-summary {
+      width: 350px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .cart-item {
+      display: flex;
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .cart-item-image {
+      width: 120px;
+      height: 120px;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      margin-right: 20px;
+    }
+    
+    .cart-item-image img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .cart-item-details {
+      flex: 1;
+    }
+    
+    .cart-item-title {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .cart-item-price {
+      color: #ff6b00;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      background: #f0f0f0;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    
+    .quantity-input {
+      width: 50px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid #ddd;
+      margin: 0 5px;
+    }
+    
+    .cart-item-remove {
+      color: #ff6b00;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .summary-title {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .summary-total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin: 20px 0;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      background: #ff6b00;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .checkout-btn:hover {
+      background: #e05d00;
+    }
+    
+    .continue-shopping {
+      display: inline-block;
+      margin-top: 20px;
+      color: #ff6b00;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .empty-cart i {
+      font-size: 3rem;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+    
+    .empty-cart h2 {
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    /* ===== FOOTER ===== */
+    footer {
+      background: #333;
+      color: white;
+      padding: 30px 0;
+      position: 0;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      padding: 40px 0;
+    }
+    
+    .footer-section h3 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 2px;
+      background: #ff6b00;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .footer-section ul li a:hover {
+      color: #ff6b00;
+      padding-left: 5px;
+    }
+    
+    .footer-section ul li a i {
+      width: 20px;
+      text-align: center;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: #ff6b00;
+      transform: translateY(-3px);
+    }
+    
+    .newsletter-form {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+    }
+    
+    .newsletter-form button {
+      background: #ff6b00;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid #444;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    
+    /* ===== MEDIA QUERIES ===== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 0 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .top-nav .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-bar {
+        width: 100%;
+        margin: 10px 0;
+      }
+      
+      .cart-container {
+        flex-direction: column;
+      }
+      
+      .cart-summary {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .cart-item {
+        flex-direction: column;
+      }
+      
+      .cart-item-image {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="top-nav">
+    <div class="container">
+      <img src="images/logo.png" alt="SoldOut Logo" class="logo">
+      <div class="search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="nav-links">
+        <a href="vendor-login.html" id="vendor-link"><i class="fas fa-store"></i> Sell</a>
+        <a href="account.html"><i class="fas fa-user"></i> Account</a>
+        <a href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">2</span></a>
+      </div>
+    </div>
+    <button class="menu-toggle">☰</button>
+  </nav>
+
+  <!-- Cart Content -->
+  <main class="container">
+    <div class="cart-header">
+      <h1>Your Shopping Cart</h1>
+      <p>Review and checkout your items</p>
+    </div>
+    
+    <div class="cart-container">
+      <div class="cart-items">
+        <!-- Cart Item 1 -->
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img src="https://via.placeholder.com/150" alt="Product Image">
+          </div>
+          <div class="cart-item-details">
+            <h3 class="cart-item-title">Wireless Bluetooth Headphones</h3>
+            <div class="cart-item-price">$99.99</div>
+            <div class="cart-item-quantity">
+              <button class="quantity-btn">-</button>
+              <input type="number" value="1" min="1" class="quantity-input">
+              <button class="quantity-btn">+</button>
+            </div>
+            <button class="cart-item-remove">
+              <i class="fas fa-trash"></i> Remove
+            </button>
+          </div>
+        </div>
+        
+        <!-- Cart Item 2 -->
+        <div class="cart-item">
+          <div class="cart-item-image">
+            <img src="https://via.placeholder.com/150" alt="Product Image">
+          </div>
+          <div class="cart-item-details">
+            <h3 class="cart-item-title">Smart Watch with Fitness Tracker</h3>
+            <div class="cart-item-price">$129.99</div>
+            <div class="cart-item-quantity">
+              <button class="quantity-btn">-</button>
+              <input type="number" value="1" min="1" class="quantity-input">
+              <button class="quantity-btn">+</button>
+            </div>
+            <button class="cart-item-remove">
+              <i class="fas fa-trash"></i> Remove
+            </button>
+          </div>
+        </div>
+        
+        <!-- Empty Cart State (hidden by default) -->
+        <!-- <div class="empty-cart">
+          <i class="fas fa-shopping-cart"></i>
+          <h2>Your cart is empty</h2>
+          <p>Looks like you haven't added anything to your cart yet</p>
+          <a href="index.html" class="continue-shopping">Continue Shopping</a>
+        </div> -->
+      </div>
+      
+      <div class="cart-summary">
+        <h3 class="summary-title">Order Summary</h3>
+        <div class="summary-row">
+          <span>Subtotal (2 items)</span>
+          <span>$229.98</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>$18.40</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total</span>
+          <span>$248.38</span>
+        </div>
+        <!-- In your cart.html, update the checkout button to link to checkout.html -->
+        <button class="checkout-btn" onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+        <a href="index.html" class="continue-shopping">
+          <i class="fas fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
+          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
+          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Help Center</h3>
+        <ul>
+          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
+          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
+          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+          <li><a href="careers.html"><i class="fas fa-briefcase"></i> Careers</a></li>
+          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="newsletter-text">Subscribe to our newsletter</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address">
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 SoldOut. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+    
+    // Quantity buttons functionality
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const input = this.parentNode.querySelector('.quantity-input');
+        let value = parseInt(input.value);
+        
+        if (this.textContent === '+' && value < 99) {
+          input.value = value + 1;
+        } else if (this.textContent === '-' && value > 1) {
+          input.value = value - 1;
+        }
+        
+        // Here you would update the cart total
+        updateCartTotal();
+      });
+    });
+    
+    // Quantity input validation
+    document.querySelectorAll('.quantity-input').forEach(input => {
+      input.addEventListener('change', function() {
+        let value = parseInt(this.value);
+        if (isNaN(value) || value < 1) {
+          this.value = 1;
+        } else if (value > 99) {
+          this.value = 99;
+        }
+        
+        // Here you would update the cart total
+        updateCartTotal();
+      });
+    });
+    
+    // Remove item from cart
+    document.querySelectorAll('.cart-item-remove').forEach(button => {
+      button.addEventListener('click', function() {
+        const cartItem = this.closest('.cart-item');
+        cartItem.remove();
+        
+        // Here you would update the cart total
+        updateCartTotal();
+        
+        // Check if cart is empty and show empty state if needed
+        if (document.querySelectorAll('.cart-item').length === 0) {
+          // Show empty cart message
+          document.querySelector('.cart-items').innerHTML = `
+            <div class="empty-cart">
+              <i class="fas fa-shopping-cart"></i>
+              <h2>Your cart is empty</h2>
+              <p>Looks like you haven't added anything to your cart yet</p>
+              <a href="index.html" class="continue-shopping">Continue Shopping</a>
+            </div>
+          `;
+        }
+      });
+    });
+    
+    // Function to update cart total (simplified example)
+    function updateCartTotal() {
+      // In a real implementation, you would calculate the total based on item prices and quantities
+      console.log('Cart updated - would calculate new total here');
+    }
+  </script>
+</body>
+</html>

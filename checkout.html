@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Your Store</title>
+    <style>
+        :root {
+            --primary-color: #e7750b;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .checkout-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        h1, h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .order-summary {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        #cart-items {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        #cart-items li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        #total-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        #checkout-form {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #e66108;
+            transform: translateY(-2px);
+        }
+        
+        #credit-card-fields {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+        }
+        
+        @media (min-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .order-summary {
+                position: sticky;
+                top: 1rem;
+                align-self: start;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h2>Your Order</h2>
+            <ul id="cart-items">
+                <!-- Example cart items (would be dynamic in production) -->
+                <li>
+                    <span>Product 1 × 1</span>
+                    <span>$19.99</span>
+                </li>
+                <li>
+                    <span>Product 2 × 2</span>
+                    <span>$59.98</span>
+                </li>
+                <li>
+                    <span>Shipping</span>
+                    <span>$5.99</span>
+                </li>
+            </ul>
+            <p>Total: <span id="total-price">$85.96</span></p>
+        </div>
+
+        <!-- Checkout Form -->
+        <form id="checkout-form">
+            <h1>Checkout</h1>
+            
+            <h2>Shipping Information</h2>
+            <input type="text" placeholder="Full Name" required>
+            <input type="text" placeholder="Address" required>
+            <input type="text" placeholder="City" required>
+            <input type="text" placeholder="Zip/Postal Code" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Phone Number" required>
+            
+            <h2>Payment Method</h2>
+            <select id="payment-method">
+                <option value="credit">Credit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="applepay">Apple Pay</option>
+                <option value="googlepay">Google Pay</option>
+            </select>
+            
+            <div id="credit-card-fields">
+                <input type="text" placeholder="Card Number" required pattern="[\d ]{16,19}">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <input type="text" placeholder="Expiry (MM/YY)" required pattern="\d{2}/\d{2}">
+                    <input type="text" placeholder="CVV" required pattern="\d{3,4}">
+                </div>
+                <input type="text" placeholder="Name on Card" required>
+            </div>
+            
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+    
+    <script>
+        // Payment method toggle
+        document.getElementById('payment-method').addEventListener('change', function() {
+            const creditCardFields = document.getElementById('credit-card-fields');
+            if (this.value === 'credit') {
+                creditCardFields.style.display = 'block';
+            } else {
+                creditCardFields.style.display = 'none';
+            }
+        });
+
+        // Form submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Order placed successfully!');
+            // In a real application, you would process the payment here
+        });
+    </script>
+</body>
+</html>

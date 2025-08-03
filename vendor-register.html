@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... (keep existing head content) ... -->
+</head>
+<body>
+  <!-- ... (keep existing HTML structure) ... -->
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    
+    // Check for Google Sign-In
+    const urlParams = new URLSearchParams(window.location.search);
+    const isGoogleSignIn = urlParams.get('googleSignIn') === 'true';
+
+    // Auto-fill form for Google users
+    if (isGoogleSignIn && auth.currentUser) {
+      const user = auth.currentUser;
+      if (user.email) {
+        document.getElementById('vendor-email').value = user.email;
+        document.getElementById('vendor-email').readOnly = true;
+      }
+      
+      if (user.displayName) {
+        const names = user.displayName.split(' ');
+        document.getElementById('vendor-first-name').value = names[0] || '';
+        if (names.length > 1) {
+          document.getElementById('vendor-last-name').value = names.slice(1).join(' ');
+        }
+      }
+    }
+
+    // Updated registration function
+    async function registerVendor(email, password, vendorData) {
+      try {
+        let userCredential;
+        
+        if (isGoogleSignIn) {
+          const user = auth.currentUser;
+          userCredential = { user };
+          
+          if (email !== user.email) {
+            await user.updateEmail(email);
+          }
+        } else {
+          userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        }
+        
+        await db.collection('vendors').doc(userCredential.user.uid).set({
+          firstName: vendorData.firstName,
+          lastName: vendorData.lastName,
+          storeName: vendorData.storeName,
+          phone: vendorData.phone,
+          email: email,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'pending',
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+          authProvider: isGoogleSignIn ? 'google' : 'email'
+        }, { merge: true });
+        
+        if (!isGoogleSignIn) {
+          await userCredential.user.sendEmailVerification();
+        }
+        
+        return userCredential;
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    // ... (keep rest of your existing JavaScript code) ...
+  </script>
+</body>
+</html>

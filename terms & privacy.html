@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Privacy | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #000;
+      --secondary-color: #333;
+      --accent-color: #ff6b6b;
+      --text-color: #333;
+      --light-text: #777;
+      --bg-color: #f5f5f5;
+      --card-bg: #fff;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .header h1 {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+    }
+    
+    .header p {
+      color: var(--light-text);
+      font-size: 1.1rem;
+    }
+    
+    .content {
+      background-color: var(--card-bg);
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .tab-buttons {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .tab-button {
+      padding: 12px 25px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--light-text);
+      position: relative;
+      transition: all 0.3s;
+    }
+    
+    .tab-button.active {
+      color: var(--primary-color);
+    }
+    
+    .tab-button.active:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--accent-color);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+      scroll-margin-top: 20px;
+    }
+    
+    .section h2 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary-color);
+      font-size: 1.5rem;
+    }
+    
+    .section h3 {
+      margin: 25px 0 15px;
+      color: var(--secondary-color);
+      font-size: 1.2rem;
+    }
+    
+    .section p, .section ul {
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .section ul {
+      padding-left: 25px;
+    }
+    
+    .section li {
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .section li:before {
+      content: "•";
+      color: var(--accent-color);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .footer-links {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: #bbb;
+      margin: 0 15px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .back-button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .back-button i {
+      margin-right: 8px;
+    }
+    
+    .highlight-box {
+      background-color: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    @media (max-width: 768px) {
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .tab-buttons {
+        flex-direction: column;
+      }
+      
+      .tab-button {
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .tab-button.active:after {
+        left: auto;
+        right: 0;
+        width: 3px;
+        height: 100%;
+        bottom: 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 15px;
+      }
+      
+      .content {
+        padding: 25px 15px;
+      }
+      
+      .section h2 {
+        font-size: 1.3rem;
+      }
+      
+      .footer-links {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .footer-links a {
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-file-alt"></i> Terms & Privacy</h1>
+      <p>Last Updated: January 2023</p>
+    </div>
+    
+    <div class="content">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="terms">Terms of Service</button>
+        <button class="tab-button" data-tab="privacy">Privacy Policy</button>
+      </div>
+      
+      <!-- Terms of Service Content -->
+      <div id="terms" class="tab-content active">
+        <div class="highlight-box">
+          <p><strong>Important:</strong> By registering as a vendor, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+        </div>
+        
+        <div class="section" id="terms-introduction">
+          <h2>1. Introduction</h2>
+          <p>Welcome to SoldOut! These Terms of Service ("Terms") govern your use of our platform as a vendor. By registering as a vendor, you agree to comply with these Terms.</p>
+        </div>
+        
+        <div class="section" id="terms-account">
+          <h2>2. Vendor Account</h2>
+          <h3>2.1 Account Creation</h3>
+          <p>To become a vendor, you must provide accurate and complete information during registration.</p>
+          
+          <h3>2.2 Account Security</h3>
+          <p>You are responsible for maintaining the confidentiality of your account credentials.</p>
+        </div>
+        
+        <div class="section" id="terms-products">
+          <h2>3. Product Listings</h2>
+          <p>As a vendor, you agree to:</p>
+          <ul>
+            <li>Provide accurate product descriptions</li>
+            <li>Maintain appropriate inventory levels</li>
+            <li>Price products fairly and competitively</li>
+            <li>Comply with all applicable laws and regulations</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="terms-fees">
+          <h2>4. Fees and Payments</h2>
+          <p>SoldOut charges a commission fee of 10% on each sale. Payments are processed bi-weekly.</p>
+        </div>
+        
+        <div class="section" id="terms-prohibited">
+          <h2>5. Prohibited Activities</h2>
+          <p>Vendors may not:</p>
+          <ul>
+            <li>Sell counterfeit or illegal products</li>
+            <li>Engage in fraudulent activities</li>
+            <li>Manipulate reviews or ratings</li>
+            <li>Violate intellectual property rights</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="terms-termination">
+          <h2>6. Termination</h2>
+          <p>We reserve the right to suspend or terminate your vendor account for violations of these Terms.</p>
+        </div>
+      </div>
+      
+      <!-- Privacy Policy Content -->
+      <div id="privacy" class="tab-content">
+        <div class="highlight-box">
+          <p><strong>Important:</strong> This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+        </div>
+        
+        <div class="section" id="privacy-introduction">
+          <h2>1. Introduction</h2>
+          <p>SoldOut ("we", "us", or "our") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use our platform as a vendor.</p>
+        </div>
+        
+        <div class="section" id="privacy-collection">
+          <h2>2. Information We Collect</h2>
+          <h3>2.1 Personal Information</h3>
+          <p>When you register as a vendor, we collect:</p>
+          <ul>
+            <li>Name and contact information</li>
+            <li>Business details</li>
+            <li>Payment information</li>
+            <li>Tax identification numbers</li>
+          </ul>
+          
+          <h3>2.2 Transaction Information</h3>
+          <p>We collect data about your sales, products, and customer interactions.</p>
+        </div>
+        
+        <div class="section" id="privacy-use">
+          <h2>3. How We Use Your Information</h2>
+          <p>We use your information to:</p>
+          <ul>
+            <li>Provide and improve our services</li>
+            <li>Process transactions and payments</li>
+            <li>Communicate with you about your account</li>
+            <li>Prevent fraud and ensure security</li>
+            <li>Comply with legal obligations</li>
+          </ul>
+        </div>
+        
+        <div class="section" id="privacy-sharing">
+          <h2>4. Information Sharing</h2>
+          <p>We may share your information with:</p>
+          <ul>
+            <li>Payment processors to complete transactions</li>
+            <li>Shipping providers to fulfill orders</li>
+            <li>Legal authorities when required by law</li>
+          </ul>
+          <p>We do not sell your personal information to third parties.</p>
+        </div>
+        
+        <div class="section" id="privacy-security">
+          <h2>5. Data Security</h2>
+          <p>We implement appropriate security measures to protect your information, including encryption and access controls.</p>
+        </div>
+      </div>
+      
+      <a href="vendor-register.html" class="back-button"><i class="fas fa-arrow-left"></i> Back to Registration</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="copyright">
+        &copy; 2023 SoldOut. All rights reserved.
+      </div>
+      <div class="footer-links">
+        <a href="privacy-policy.html"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+        <a href="terms-of-service.html"><i class="fas fa-file-contract"></i> Terms of Service</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tab functionality
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons and contents
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding content
+        button.classList.add('active');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+    
+    // If there's a hash in the URL, open the corresponding tab
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.substring(1);
+      if (hash === 'privacy') {
+        document.querySelector('.tab-button[data-tab="privacy"]').click();
+      }
+    });
+  </script>
+</body>
+</html>

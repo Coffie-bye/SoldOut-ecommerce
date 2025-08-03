@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- [Include all CSS from account.html] -->
+</head>
+<body>
+  <!-- Top Navbar (same as account.html) -->
+  <nav class="top-nav">
+    <div class="container">
+      <a href="index.html"><img src="images/logo.png" alt="SoldOut Logo" class="logo"></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="nav-links">
+        <a href="vendor-login.html"><i class="fas fa-store"></i> Sell</a>
+        <a href="account.html"><i class="fas fa-user"></i> Account</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
+      </div>
+    </div>
+    <button class="menu-toggle">☰</button>
+  </nav>
+
+  <!-- Profile Content -->
+  <main class="container">
+    <div class="account-header">
+      <h1>My Profile</h1>
+      <p>Manage your personal information</p>
+    </div>
+    
+    <div class="account-container">
+      <!-- Account Sidebar (same as account.html) -->
+      <div class="account-sidebar">
+        <div class="user-profile">
+          <div class="user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="user-name">John Doe</div>
+          <div class="user-email">john.doe@example.com</div>
+        </div>
+        
+        <ul class="account-menu">
+          <li><a href="profile.html" class="active"><i class="fas fa-user"></i> Profile</a></li>
+          <li><a href="orders.html"><i class="fas fa-box"></i> Orders</a></li>
+          <li><a href="addresses.html"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
+          <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
+          <li><a href="payment-methods.html"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+          <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+          <li><a href="index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+      </div>
+      
+      <!-- Profile Main Content -->
+      <div class="account-content">
+        <h2 class="section-title">Personal Information</h2>
+        
+        <form id="profile-form">
+          <div class="form-group">
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" value="John" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" value="Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" value="john.doe@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" value="(123) 456-7890">
+          </div>
+          
+          <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (same as account.html) -->
+  <footer>
+    <!-- [Same footer as account.html] -->
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Form submission
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Profile updated successfully!');
+    });
+
+    // Logout functionality
+    document.getElementById('logout-link').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('authToken');
+      window.location.href = "index.html";
+    });
+
+    // Highlight current page in sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const menuLinks = document.querySelectorAll('.account-menu a');
+      
+      menuLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

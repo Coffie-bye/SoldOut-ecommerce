@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ... (keep existing head content) ... -->
+</head>
+<body>
+  <!-- ... (keep existing HTML structure) ... -->
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    
+    // Check auth state
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "vendor-login.html";
+      } else {
+        // For email/password users, check verification
+        if (user.providerData.some(provider => provider.providerId === 'password') {
+          if (!user.emailVerified) {
+            window.location.href = "vendor-login.html";
+          }
+        }
+        // Display vendor email
+        document.getElementById('vendor-email').textContent = user.email;
+      }
+    });
+    
+    // ... (keep rest of your existing JavaScript code) ...
+  </script>
+</body>
+</html>

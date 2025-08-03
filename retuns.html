@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Returns & Refunds | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- [Include all CSS from account.html] -->
+  <style>
+    /* Footer Styles */
+    footer {
+      background-color: #000;
+      color: #fff;
+      padding: 50px 0 20px;
+      margin-top: 40px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    
+    .footer-section h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-section ul li a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-section ul li a:hover {
+      color: #fff;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .social-icons a {
+      color: #fff;
+      font-size: 1.3rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    /* Returns Page Styles */
+    .help-article {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .help-article h2 {
+      color: #333;
+      margin-top: 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .help-article h3 {
+      margin-top: 25px;
+      color: #444;
+    }
+    
+    .help-article p {
+      margin-bottom: 15px;
+    }
+    
+    .help-article ol, 
+    .help-article ul {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    
+    .policy-card {
+      background: #f9f9f9;
+      border-left: 4px solid #000;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    
+    .policy-feature {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .policy-feature i {
+      color: #000;
+      margin-right: 15px;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <header>
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html" class="logo">SoldOut</a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search for products...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="electronics.html">Electronics</a>
+          <a href="fashion.html">Fashion</a>
+          <a href="home-kitchen.html">Home & Kitchen</a>
+          <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </nav>
+  </header>
+  
+  <main class="container">
+    <div class="category-header">
+      <h1>Returns & Refunds</h1>
+      <p>Our hassle-free return policy</p>
+    </div>
+
+    <div class="help-article">
+      <div class="policy-card">
+        <div class="policy-feature">
+          <i class="fas fa-undo"></i>
+          <div>
+            <h3>Easy 30-Day Returns</h3>
+            <p>Most items can be returned within 30 days of delivery for a full refund</p>
+          </div>
+        </div>
+        <div class="policy-feature">
+          <i class="fas fa-shipping-fast"></i>
+          <div>
+            <h3>Free Return Shipping</h3>
+            <p>We provide prepaid return labels for most items</p>
+          </div>
+        </div>
+        <div class="policy-feature">
+          <i class="fas fa-money-bill-wave"></i>
+          <div>
+            <h3>Quick Refunds</h3>
+            <p>Refunds processed within 3-5 business days after we receive your return</p>
+          </div>
+        </div>
+      </div>
+      
+      <section>
+        <h2>How to Return an Item</h2>
+        <ol>
+          <li><strong>Initiate your return</strong> through your account or our Returns Center</li>
+          <li><strong>Print your return label</strong> and packing slip</li>
+          <li><strong>Pack your items</strong> securely in the original packaging if possible</li>
+          <li><strong>Ship your return</strong> using the provided label within 30 days</li>
+          <li><strong>Receive confirmation</strong> when we process your return</li>
+        </ol>
+      </section>
+      
+      <section>
+        <h2>Refund Information</h2>
+        <ul>
+          <li>Refunds are issued to the original payment method</li>
+          <li>Shipping charges are non-refundable unless the return is due to our error</li>
+          <li>Sale items may have different return policies (see product details)</li>
+          <li>Gift returns receive store credit</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Return Exceptions</h2>
+        <p>Some items cannot be returned for hygiene or safety reasons:</p>
+        <ul>
+          <li>Personal care items (earrings, cosmetics, etc.)</li>
+          <li>Customized or personalized products</li>
+          <li>Downloadable software products</li>
+          <li>Gift cards</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Damaged or Defective Items</h2>
+        <p>If your item arrived damaged or defective:</p>
+        <ol>
+          <li>Contact us within 48 hours of delivery</li>
+          <li>Provide photos of the damage or defect</li>
+          <li>We'll arrange for a replacement or refund</li>
+        </ol>
+      </section>
+      
+      <section>
+        <h2>International Returns</h2>
+        <p>For international orders:</p>
+        <ul>
+          <li>Return shipping costs are the customer's responsibility</li>
+          <li>Customs fees are non-refundable</li>
+          <li>Allow additional time for international shipping</li>
+        </ul>
+      </section>
+      
+      <section>
+        <h2>Need Help?</h2>
+        <p>Contact our Customer Service team for assistance with returns:</p>
+        <div class="policy-card">
+          <p><i class="fas fa-phone"></i> <strong>Phone:</strong> 1-800-SOLD-OUT (Mon-Fri, 9am-6pm EST)</p>
+          <p><i class="fas fa-envelope"></i> <strong>Email:</strong> returns@soldout.com</p>
+          <p><i class="fas fa-comment"></i> <strong>Live Chat:</strong> Available on our Contact Us page</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-section">
+        <h3>Shop Categories</h3>
+        <ul>
+          <li><a href="electronics.html">Electronics</a></li>
+          <li><a href="fashion.html">Fashion</a></li>
+          <li><a href="home-kitchen.html">Home & Kitchen</a></li>
+          <li><a href="clearance.html">Clearance</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Support</h3>
+        <ul>
+          <li><a href="customer-service.html">Contact Us</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+          <li><a href="track-order.html">Track Order</a></li>
+          <li><a href="returns.html">Returns Center</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Company Info</h3>
+        <ul>
+          <li><a href="about-us.html">About Us</a></li>
+          <li><a href="career.html">Careers</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>Have questions about returns?</p>
+        <a href="customer-service.html" class="footer-button">Contact Support</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 SoldOut. All rights reserved. | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms & privacy.html">Terms of Service</a></p>
+    </div>
+  </footer>
+</body>
+</html>

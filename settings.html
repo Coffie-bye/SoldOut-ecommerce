@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- [Include all CSS from account.html] -->
+</head>
+<body>
+  <!-- Top Navbar (same as account.html) -->
+  <nav class="top-nav">
+    <!-- [Same navbar as account.html] -->
+  </nav>
+
+  <!-- Settings Content -->
+  <main class="container">
+    <div class="account-header">
+      <h1>Account Settings</h1>
+      <p>Customize your account preferences</p>
+    </div>
+    
+    <div class="account-container">
+      <!-- Account Sidebar (same as account.html) -->
+      <div class="account-sidebar">
+        <!-- [Same sidebar as account.html] -->
+      </div>
+      
+      <!-- Settings Main Content -->
+      <div class="account-content">
+        <h2 class="section-title">Notification Preferences</h2>
+        
+        <div class="settings-option">
+          <label>
+            <input type="checkbox" checked> Email notifications
+          </label>
+        </div>
+        
+        <div class="danger-zone">
+          <h3>Danger Zone</h3>
+          <button class="danger-btn" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (same as account.html) -->
+  <footer>
+    <!-- [Same footer as account.html] -->
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      localStorage.removeItem('authToken');
+      window.location.href = "index.html";
+    });
+
+    // Highlight current page in sidebar
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const menuLinks = document.querySelectorAll('.account-menu a');
+      
+      menuLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

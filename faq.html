@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: #f5f5f5;
+      position: relative;
+      padding-bottom: 60px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* ===== NAVIGATION ===== */
+    .top-nav {
+      background: #ff6b00;
+      padding: 15px 0;
+      position: relative;
+    }
+    
+    .top-nav .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      margin: 0 15px;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    
+    .search-bar button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      cursor: pointer;
+    }
+    
+    /* ===== FAQ STYLES ===== */
+    .faq-section {
+      padding: 40px 0;
+    }
+    
+    .faq-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .faq-header h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    
+    .faq-header p {
+      color: #666;
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .faq-container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .faq-item {
+      border-bottom: 1px solid #eee;
+    }
+    
+    .faq-question {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .faq-question:hover {
+      background: #f9f9f9;
+    }
+    
+    .faq-question h3 {
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 600;
+    }
+    
+    .faq-question i {
+      color: #ff6b00;
+      transition: transform 0.3s;
+    }
+    
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-answer p {
+      color: #555;
+      line-height: 1.6;
+      padding-bottom: 20px;
+    }
+    
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 500px;
+    }
+    
+    .contact-support {
+      text-align: center;
+      margin-top: 40px;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .contact-support h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    .contact-support p {
+      color: #666;
+      margin-bottom: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .support-btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #ff6b00;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    
+    .support-btn:hover {
+      background: #e05d00;
+    }
+    
+    /* ===== MOBILE MENU ===== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 0 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .top-nav .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-bar {
+        width: 100%;
+        margin: 10px 0;
+      }
+      
+      .faq-header h1 {
+        font-size: 2rem;
+      }
+    }
+    
+    /* ===== FOOTER ===== */
+    footer {
+      background: #333;
+      color: white;
+      padding: 30px 0;
+      position: 0;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      padding: 40px 0;
+    }
+    
+    .footer-section h3 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 2px;
+      background: #ff6b00;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .footer-section ul li a:hover {
+      color: #ff6b00;
+      padding-left: 5px;
+    }
+    
+    .footer-section ul li a i {
+      width: 20px;
+      text-align: center;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .social-links a {
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      color: #ff6b00;
+      transform: translateY(-3px);
+    }
+    
+    .newsletter-form {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+    }
+    
+    .newsletter-form button {
+      background: #ff6b00;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    
+    .copyright {
+      text-align: center;
+      padding: 20px 0;
+      border-top: 1px solid #444;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="top-nav">
+    <div class="container">
+      <img src="images/logo.png" alt="SoldOut Logo" class="logo">
+      <div class="search-bar">
+        <input type="text" placeholder="Search products...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="nav-links">
+        <a href="vendor-login.html" id="vendor-link"><i class="fas fa-store"></i> Sell</a>
+        <a href="account.html"><i class="fas fa-user"></i> Account</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
+      </div>
+    </div>
+    <button class="menu-toggle">☰</button>
+  </nav>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="faq-header">
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about shopping on SoldOut, orders, payments, returns and more.</p>
+      </div>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>How do I place an order?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>To place an order, simply browse our products, add items to your cart, and proceed to checkout. You'll need to provide shipping information and payment details to complete your purchase.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>What payment methods do you accept?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>We accept various payment methods including credit/debit cards (Visa, MasterCard, American Express), PayPal, and SoldOut Wallet. Some payment options may vary by region.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>How can I track my order?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Once your order ships, you'll receive a confirmation email with a tracking number. You can track your package using this number on our website or the carrier's website.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>What is your return policy?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>We offer a 30-day return policy for most items. Items must be unused, in original packaging with all tags attached. Some products like perishables and personal care items may not be eligible for return.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>How long does shipping take?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Standard shipping typically takes 3-5 business days. Delivery times may vary depending on your location and product availability. Expedited shipping options are available at checkout.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Do you offer international shipping?</h3>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, we ship to many countries worldwide. Shipping costs and delivery times vary by destination. You'll see available shipping options and costs during checkout.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-support">
+        <h2>Still have questions?</h2>
+        <p>Our customer support team is available 24/7 to assist you with any questions or concerns you may have.</p>
+        <a href="customer-service.html" class="support-btn">Contact Support</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
+          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
+          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Help Center</h3>
+        <ul>
+          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
+          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
+          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+          <li><a href="career.html"><i class="fas fa-briefcase"></i> Careers</a></li>
+          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <p class="newsletter-text">Subscribe to our newsletter</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address">
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 SoldOut. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+    
+    // FAQ accordion functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      
+      question.addEventListener('click', () => {
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+        
+        // Toggle current item
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

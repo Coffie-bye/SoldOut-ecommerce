@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women's Fashion | SoldOut</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== BASE STYLES ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    html {
+      height: 100%;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #f5f5f5;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    main {
+      flex: 1;
+      padding: 30px 0 60px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .top-nav {
+      background: #ff6b00;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .top-nav .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+    
+    .logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    .search-bar {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      margin: 0 15px;
+    }
+    
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    
+    .search-bar button {
+      background: #333;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .search-bar button:hover {
+      background: #222;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: transform 0.2s;
+    }
+    
+    .nav-links a:hover {
+      transform: translateY(-2px);
+    }
+    
+    .nav-links a.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    
+    .cart-count {
+      background: #333;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      margin-left: 5px;
+    }
+    
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      cursor: pointer;
+    }
+
+    /* ===== SUB-CATEGORY NAVIGATION ===== */
+    .subcategory-nav {
+      background: #fff;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .subcategory-nav ul {
+      display: flex;
+      list-style: none;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    .subcategory-nav a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 5px 0;
+      position: relative;
+    }
+    
+    .subcategory-nav a.active {
+      color: #ff6b00;
+    }
+    
+    .subcategory-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #ff6b00;
+    }
+    
+    .subcategory-nav a:hover {
+      color: #ff6b00;
+    }
+
+    /* ===== PRODUCT GRID ===== */
+    .category-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .category-header h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .category-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+    
+    .product-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ff6b00;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 1;
+    }
+    
+    .product-badge.sale {
+      background: #dc3545;
+    }
+    
+    .product-image {
+      height: 250px;
+      background: #f9f9f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .product-image img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+    
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+    
+    .product-info {
+      padding: 15px;
+    }
+    
+    .product-info h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #333;
+      height: 40px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    
+    .price {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .old-price {
+      text-decoration: line-through;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    .new-price {
+      color: #ff6b00;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .product-rating {
+      color: #ffc107;
+      margin: 8px 0;
+      font-size: 0.9rem;
+    }
+    
+    .product-rating span {
+      color: #666;
+      margin-left: 5px;
+    }
+    
+    .product-card button {
+      width: 100%;
+      padding: 10px;
+      background: #ff6b00;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-top: 10px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .product-card button:hover {
+      background: #e05d00;
+    }
+    
+    .product-card button.added {
+      background: #28a745;
+    }
+    
+    .product-card button.added::after {
+      content: "✓ Added";
+    }
+
+    /* ===== FOOTER STYLES ===== */
+    footer {
+      background: #000;
+      color: #e4dddb;
+      padding: 50px 0 20px;
+      margin-top: 40px;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    
+    .footer-section h3 {
+      color: #fff;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-section h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 2px;
+      background: #ff6b00;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-section ul li a {
+      color: #bbb;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .footer-section ul li a:hover {
+      color: #fff;
+      padding-left: 5px;
+    }
+    
+    .footer-section ul li a i {
+      width: 20px;
+      text-align: center;
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .social-icons a {
+      color: white;
+      font-size: 1.3rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icons a:hover {
+      color: #ff6b00;
+      transform: translateY(-3px);
+    }
+    
+    .newsletter-form {
+      display: flex;
+      margin-top: 15px;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+    }
+    
+    .newsletter-form button {
+      background: #ff6b00;
+      color: white;
+      border: none;
+      padding: 0 15px;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .newsletter-form button:hover {
+      background: #e05d00;
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      color: #999;
+      font-size: 0.9rem;
+    }
+    
+    .copyright a {
+      color: #bbb;
+      text-decoration: none;
+    }
+    
+    .copyright a:hover {
+      color: #ff6b00;
+    }
+
+    /* ===== MEDIA QUERIES ===== */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 0 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .top-nav .container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-bar {
+        width: 100%;
+        margin: 10px 0;
+      }
+      
+      .products-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .subcategory-nav ul {
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <nav class="top-nav">
+    <div class="container">
+      <a href="index.html"><img src="images/logo.png" alt="SoldOut Logo" class="logo"></a>
+      <div class="search-bar">
+        <input type="text" placeholder="Search women's fashion...">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="electronics.html">Electronics</a>
+        <a href="fashion.html" class="active">Fashion</a>
+        <a href="home-kitchen.html">Home & Kitchen</a>
+        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
+        <a href="account.html"><i class="fas fa-user"></i> Account</a>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </div>
+  </nav>
+
+  <!-- Subcategory Navigation -->
+  <nav class="subcategory-nav">
+    <div class="container">
+      <ul>
+        <li><a href="fashion.html">All Fashion</a></li>
+        <li><a href="men's-fashion.html">Men's</a></li>
+        <li><a href="women's-fashion.html" class="active">Women's</a></li>
+        <li><a href="accessories.html">Accessories</a></li>
+        <li><a href="footwear.html">Footwear</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="category-header">
+      <h1>Women's Fashion</h1>
+      <p>Discover the latest trends in women's clothing and accessories</p>
+    </div>
+
+    <div class="products-grid">
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/dress.jpg" alt="Summer Dress" loading="lazy">
+          <span class="product-badge">New</span>
+        </div>
+        <div class="product-info">
+          <h3>Summer Floral Dress</h3>
+          <div class="price">
+            <span class="new-price">$39.99</span>
+            <span class="old-price">$49.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span>(142)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/blouse.jpg" alt="Women's Blouse" loading="lazy">
+          <span class="product-badge sale">Sale</span>
+        </div>
+        <div class="product-info">
+          <h3>Silk Blouse</h3>
+          <div class="price">
+            <span class="new-price">$45.99</span>
+            <span class="old-price">$59.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <span>(89)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/jeans.jpg" alt="Women's Jeans" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3>High Waist Jeans</h3>
+          <div class="price">
+            <span class="new-price">$49.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <span>(215)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 4 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/jacket.jpg" alt="Women's Jacket" loading="lazy">
+          <span class="product-badge">Bestseller</span>
+        </div>
+        <div class="product-info">
+          <h3>Denim Jacket</h3>
+          <div class="price">
+            <span class="new-price">$59.99</span>
+            <span class="old-price">$69.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span>(342)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 5 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/heels.jpg" alt="Women's Heels" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3>High Heels</h3>
+          <div class="price">
+            <span class="new-price">$69.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <span>(178)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 6 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/bag.jpg" alt="Women's Bag" loading="lazy">
+          <span class="product-badge">Limited</span>
+        </div>
+        <div class="product-info">
+          <h3>Designer Handbag</h3>
+          <div class="price">
+            <span class="new-price">$89.99</span>
+            <span class="old-price">$99.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <span>(256)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 7 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/jewelry.jpg" alt="Women's Jewelry" loading="lazy">
+        </div>
+        <div class="product-info">
+          <h3>Gold Plated Necklace</h3>
+          <div class="price">
+            <span class="new-price">$24.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+            <span>(93)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+      
+      <!-- Product 8 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="images/womens/scarf.jpg" alt="Women's Scarf" loading="lazy">
+          <span class="product-badge">Trending</span>
+        </div>
+        <div class="product-info">
+          <h3>Silk Scarf</h3>
+          <div class="price">
+            <span class="new-price">$19.99</span>
+          </div>
+          <div class="product-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <span>(167)</span>
+          </div>
+          <button class="add-to-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-section">
+        <h3>Shop Categories</h3>
+        <ul>
+          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
+          <li><a href="men's-fashion.html"><i class="fas fa-tshirt"></i> Men's Fashion</a></li>
+          <li><a href="women's-fashion.html"><i class="fas fa-female"></i> Women's Fashion</a></li>
+          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
+          <li><a href="accessories.html"><i class="fas fa-ring"></i> Accessories</a></li>
+          <li><a href="footwaer.html"><i class="fas-shoes"></i> Footwear</a>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Contact Us</a></li>
+          <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
+          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Exchanges</a></li>
+          <li><a href="shipping.html"><i class="fas fa-shipping-fast"></i> Shipping Info</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>About SoldOut</h3>
+        <ul>
+          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> Our Story</a></li>
+          <li><a href="career.html"><i class="fas fa-briefcase"></i> Careers</a></li>
+          <li><a href="blog.html"><i class="fas fa-blog"></i> Blog</a></li>
+          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
+          <li><a href="terms.html"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Join Our Community</h3>
+        <p>Subscribe to our newsletter for exclusive offers and updates</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Your email address" required>
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; <span id="current-year"></span> SoldOut. All rights reserved. | 
+        <a href="privacy-policy.html">Privacy Policy</a> | 
+        <a href="terms.html">Terms of Service</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.menu-toggle').addEventListener('click', function() {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    // Add to cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function() {
+        const productCard = this.closest('.product-card');
+        const productName = productCard.querySelector('h3').textContent;
+        const productPrice = productCard.querySelector('.new-price').textContent;
+        
+        // Here you would typically add to cart logic
+        console.log(`Added to cart: ${productName} - ${productPrice}`);
+        
+        // Show visual feedback
+        this.classList.add('added');
+        this.innerHTML = '<i class="fas fa-check"></i> Added';
+        
+        // Update cart count
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+          cartCount.textContent = parseInt(cartCount.textContent) + 1;
+        }
+        
+        // Reset button after delay
+        setTimeout(() => {
+          this.classList.remove('added');
+          this.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
