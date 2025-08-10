@@ -663,3 +663,42 @@ footer {
     gap: 15px;
   }
 }
+/* Add to your main CSS file */
+.toast-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+  max-width: 90%;
+  text-align: center;
+}
+
+.toast-message.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { bottom: -50px; opacity: 0; }
+  to { bottom: 20px; opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

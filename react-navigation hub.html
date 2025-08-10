@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoldOut | Navigation Hub</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Load React -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    /* ===== MODERN BASE STYLES ===== */
+    :root {
+      --primary: #ff6b00;
+      --primary-dark: #e05d00;
+      --dark: #1a1a1a;
+      --light: #ffffff;
+      --gray: #f5f5f5;
+      --text: #333333;
+      --text-light: #777777;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    
+    /* ===== NAVIGATION CARDS ===== */
+    .navigation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .nav-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .nav-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+    
+    .nav-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .nav-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    
+    .nav-card p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+    
+    .nav-btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .nav-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    /* ===== HEADER ===== */
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+    
+    .page-header p {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .navigation-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .page-header p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React App Script -->
+  <script type="text/babel">
+    // Navigation Links Data
+    const navLinks = [
+      {
+        title: "Home",
+        description: "Browse our featured products and special offers",
+        icon: "fas fa-home",
+        link: "index.html"
+      },
+      {
+        title: "Electronics",
+        description: "Discover the latest gadgets and tech devices",
+        icon: "fas fa-mobile-alt",
+        link: "electronics.html"
+      },
+      {
+        title: "Fashion",
+        description: "Explore trendy clothing and accessories",
+        icon: "fas fa-tshirt",
+        link: "fashion.html"
+      },
+      {
+        title: "Home & Kitchen",
+        description: "Find everything for your home",
+        icon: "fas fa-home",
+        link: "home-kitchen.html"
+      },
+      {
+        title: "Vendor Login",
+        description: "Sell your products on our platform",
+        icon: "fas fa-store",
+        link: "vendor-login.html"
+      },
+      {
+        title: "My Account",
+        description: "Manage your profile and orders",
+        icon: "fas fa-user",
+        link: "account.html"
+      },
+      {
+        title: "Shopping Cart",
+        description: "Review your selected items",
+        icon: "fas fa-shopping-cart",
+        link: "cart.html"
+      },
+      {
+        title: "Customer Service",
+        description: "Get help with your orders",
+        icon: "fas fa-headset",
+        link: "customer-service.html"
+      },
+      {
+        title: "Track Order",
+        description: "Check your order status",
+        icon: "fas fa-truck",
+        link: "track-order.html"
+      },
+      {
+        title: "Returns & Refunds",
+        description: "Manage returns and refunds",
+        icon: "fas fa-exchange-alt",
+        link: "retuns.html"
+      },
+      {
+        title: "About Us",
+        description: "Learn about our company",
+        icon: "fas fa-info-circle",
+        link: "about-us.html"
+      },
+      {
+        title: "Careers",
+        description: "Join our team",
+        icon: "fas fa-briefcase",
+        link: "career.html"
+      },
+      {
+        title: "Privacy Policy",
+        description: "Read our privacy terms",
+        icon: "fas fa-lock",
+        link: "privacy-policy.html"
+      }
+    ];
+
+    // Navigation Card Component
+    function NavCard({ title, description, icon, link }) {
+      return (
+        <div className="nav-card">
+          <div className="nav-icon">
+            <i className={icon}></i>
+          </div>
+          <h3>{title}</h3>
+          <p>{description}</p>
+          <a href={link} className="nav-btn">Go to {title}</a>
+        </div>
+      );
+    }
+
+    // Main App Component
+    function App() {
+      return (
+        <div className="container">
+          <header className="page-header">
+            <h1>Welcome to SoldOut</h1>
+            <p>Navigate to any section of our online shopping platform</p>
+          </header>
+          
+          <div className="navigation-grid">
+            {navLinks.map((link, index) => (
+              <NavCard
+                key={index}
+                title={link.title}
+                description={link.description}
+                icon={link.icon}
+                link={link.link}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Render React App
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

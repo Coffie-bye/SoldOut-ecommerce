@@ -5,7 +5,7 @@ const firebaseConfig = {
   projectId: "your-project",
   storageBucket: "your-project.appspot.com",
   messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef123456"
+  appId: "1:123456789:web:abcdef123456",
 };
 
 // Initialize Firebase
@@ -15,12 +15,13 @@ const auth = firebase.auth();
 
 // Vendor Authentication
 function registerVendor(email, password) {
-  auth.createUserWithEmailAndPassword(email, password)
+  auth
+    .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       // Save vendor details to Firestore
       db.collection("vendors").doc(userCredential.user.uid).set({
         email: email,
-        joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+        joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
       window.location.href = "vendor-dashboard.html";
     })
@@ -28,7 +29,10 @@ function registerVendor(email, password) {
 }
 
 function loginVendor(email, password) {
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => window.location.href = "vendor-dashboard.html")
+  auth
+    .signInWithEmailAndPassword(email, password)
+    .then(() => (window.location.href = "vendor-dashboard.html"))
     .catch((error) => alert(error.message));
 }
+// Replace exposed config with:
+const firebaseConfig = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG);

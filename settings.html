@@ -1,79 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Settings | SoldOut</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- [Include all CSS from account.html] -->
-</head>
-<body>
-  <!-- Top Navbar (same as account.html) -->
-  <nav class="top-nav">
-    <!-- [Same navbar as account.html] -->
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Settings | SoldOut</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
 
-  <!-- Settings Content -->
-  <main class="container">
-    <div class="account-header">
-      <h1>Account Settings</h1>
-      <p>Customize your account preferences</p>
-    </div>
-    
-    <div class="account-container">
-      <!-- Account Sidebar (same as account.html) -->
-      <div class="account-sidebar">
-        <!-- [Same sidebar as account.html] -->
-      </div>
-      
-      <!-- Settings Main Content -->
-      <div class="account-content">
-        <h2 class="section-title">Notification Preferences</h2>
-        
-        <div class="settings-option">
-          <label>
-            <input type="checkbox" checked> Email notifications
-          </label>
-        </div>
-        
-        <div class="danger-zone">
-          <h3>Danger Zone</h3>
-          <button class="danger-btn" id="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
+      html {
+        height: 100%;
+      }
 
-  <!-- Footer (same as account.html) -->
-  <footer>
-    <!-- [Same footer as account.html] -->
-  </footer>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #f5f5f5;
+      }
 
-  <script>
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-    // Logout functionality
-    document.getElementById('logout-btn').addEventListener('click', function() {
-      localStorage.removeItem('authToken');
-      window.location.href = "index.html";
-    });
+      main {
+        flex: 1;
+        padding-bottom: 40px;
+      }
 
-    // Highlight current page in sidebar
-    document.addEventListener('DOMContentLoaded', function() {
-      const currentPage = window.location.pathname.split('/').pop();
-      const menuLinks = document.querySelectorAll('.account-menu a');
-      
-      menuLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-          link.classList.add('active');
+      /* ===== NAVIGATION ===== */
+      .top-nav {
+        background: #ff6b00;
+        padding: 15px 0;
+        position: relative;
+      }
+
+      .top-nav .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+
+      .logo {
+        height: 40px;
+        width: auto;
+      }
+
+      .search-bar {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        margin: 0 15px;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .search-bar button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+      }
+
+      /* ===== ACCOUNT PAGE STYLES ===== */
+      .account-header {
+        margin: 30px 0;
+        text-align: center;
+      }
+
+      .account-header h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .account-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .account-sidebar {
+        width: 250px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .account-content {
+        flex: 1;
+        min-width: 300px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+
+      .user-profile {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 2rem;
+        color: #666;
+      }
+
+      .user-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .user-email {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .account-menu {
+        list-style: none;
+      }
+
+      .account-menu li {
+        margin-bottom: 10px;
+      }
+
+      .account-menu a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+
+      .account-menu a:hover,
+      .account-menu a.active {
+        background: #ff6b00;
+        color: white;
+      }
+
+      .account-menu a i {
+        width: 20px;
+        text-align: center;
+        margin-right: 10px;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Settings Specific Styles */
+      .settings-section {
+        margin-bottom: 30px;
+      }
+
+      .settings-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .settings-option {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 10px;
+        background: #f9f9f9;
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+
+      .settings-option:hover {
+        background: #f0f0f0;
+      }
+
+      .settings-option label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .settings-option input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #ff6b00;
+        cursor: pointer;
+      }
+
+      .danger-zone {
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 8px;
+        background: #fff5f5;
+        border: 1px solid #ffdddd;
+      }
+
+      .danger-zone h3 {
+        color: #d32f2f;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .danger-zone h3::before {
+        content: "⚠️";
+      }
+
+      .danger-btn {
+        background: #d32f2f;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .danger-btn:hover {
+        background: #b71c1c;
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+
+      .form-control:focus {
+        border-color: #ff6b00;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1rem;
+      }
+
+      .btn:hover {
+        background: #e05e00;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: #333;
+        color: white;
+        padding: 30px 0 0;
+        width: 100%;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        padding: 40px 0;
+      }
+
+      .footer-section h3 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: #ff6b00;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-section ul li a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
+
+      .footer-section ul li a i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #ff6b00;
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .newsletter-form button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+        color: #aaa;
+        font-size: 0.9rem;
+        margin-top: 30px;
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
         }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        .account-sidebar {
+          width: 100%;
+        }
+
+        .account-content {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html"
+          ><img src="images/logo.png" alt="SoldOut Logo" class="logo"
+        /></a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search products..." />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+          <a href="vendor-login.html"><i class="fas fa-store"></i> Sell</a>
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i> Cart
+            <span class="cart-count">0</span></a
+          >
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </nav>
+
+    <!-- Settings Content -->
+    <main class="container">
+      <div class="account-header">
+        <h1>Account Settings</h1>
+        <p>Customize your account preferences</p>
+      </div>
+
+      <div class="account-container">
+        <!-- Account Sidebar -->
+        <div class="account-sidebar">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="user-name">John Doe</div>
+            <div class="user-email">john.doe@example.com</div>
+          </div>
+
+          <ul class="account-menu">
+            <li>
+              <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            </li>
+            <li>
+              <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
+            </li>
+            <li>
+              <a href="addresses.html"
+                ><i class="fas fa-map-marker-alt"></i> Addresses</a
+              >
+            </li>
+            <li>
+              <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+            </li>
+            <li>
+              <a href="payment-methods.html"
+                ><i class="fas fa-credit-card"></i> Payment Methods</a
+              >
+            </li>
+            <li>
+              <a href="settings.html" class="active"
+                ><i class="fas fa-cog"></i> Settings</a
+              >
+            </li>
+            <li>
+              <a href="index.html" id="logout-link"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Settings Main Content -->
+        <div class="account-content">
+          <div class="settings-section">
+            <h2 class="section-title">Notification Preferences</h2>
+
+            <div class="settings-option">
+              <label>
+                <input type="checkbox" checked /> Email notifications
+              </label>
+            </div>
+
+            <div class="settings-option">
+              <label>
+                <input type="checkbox" checked /> SMS notifications
+              </label>
+            </div>
+
+            <div class="settings-option">
+              <label> <input type="checkbox" /> Push notifications </label>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h2 class="section-title">Account Information</h2>
+
+            <div class="form-group">
+              <label for="language">Language</label>
+              <select id="language" class="form-control">
+                <option>English</option>
+                <option>Spanish</option>
+                <option>French</option>
+                <option>German</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="timezone">Timezone</label>
+              <select id="timezone" class="form-control">
+                <option>(GMT-12:00) International Date Line West</option>
+                <option>(GMT-05:00) Eastern Time (US & Canada)</option>
+                <option selected>(GMT+00:00) Greenwich Mean Time</option>
+                <option>(GMT+01:00) Central European Time</option>
+              </select>
+            </div>
+
+            <button class="btn">
+              <i class="fas fa-save"></i> Save Preferences
+            </button>
+          </div>
+
+          <div class="danger-zone">
+            <h3>Danger Zone</h3>
+            <p>These actions are irreversible. Please proceed with caution.</p>
+
+            <div style="margin-top: 15px; display: flex; gap: 10px">
+              <button class="danger-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </button>
+
+              <button class="danger-btn" style="background: #333">
+                <i class="fas fa-trash-alt"></i> Delete Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>Shop</h3>
+          <ul>
+            <li>
+              <a href="electronics.html"
+                ><i class="fas fa-mobile-alt"></i> Electronics</a
+              >
+            </li>
+            <li>
+              <a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a>
+            </li>
+            <li>
+              <a href="home-kitchen.html"
+                ><i class="fas fa-home"></i> Home & Kitchen</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Help Center</h3>
+          <ul>
+            <li>
+              <a href="customer-service.html"
+                ><i class="fas fa-headset"></i> Customer Service</a
+              >
+            </li>
+            <li>
+              <a href="track-order.html"
+                ><i class="fas fa-truck"></i> Track Order</a
+              >
+            </li>
+            <li>
+              <a href="returns.html"
+                ><i class="fas fa-exchange-alt"></i> Returns & Refunds</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <a href="about-us.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="careers.html"
+                ><i class="fas fa-briefcase"></i> Careers</a
+              >
+            </li>
+            <li>
+              <a href="privacy-policy.html"
+                ><i class="fas fa-lock"></i> Privacy Policy</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <p class="newsletter-text">Subscribe to our newsletter</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2023 SoldOut. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+
+      // Update cart count from localStorage
+      document.addEventListener("DOMContentLoaded", function () {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        document
+          .querySelectorAll(".cart-count")
+          .forEach((el) => (el.textContent = count));
+
+        // Highlight current page in sidebar
+        const currentPage = window.location.pathname.split("/").pop();
+        const menuLinks = document.querySelectorAll(".account-menu a");
+
+        menuLinks.forEach((link) => {
+          if (link.getAttribute("href") === currentPage) {
+            link.classList.add("active");
+          }
+        });
       });
-    });
-  </script>
-</body>
+
+      // Logout functionality
+      document
+        .getElementById("logout-btn")
+        .addEventListener("click", function () {
+          localStorage.removeItem("authToken");
+          window.location.href = "index.html";
+        });
+
+      // Delete account confirmation
+      document
+        .querySelector('.danger-btn[style*="background: #333;"]')
+        ?.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (
+            confirm(
+              "Are you sure you want to delete your account? This action cannot be undone."
+            )
+          ) {
+            // Account deletion logic would go here
+            localStorage.removeItem("authToken");
+            window.location.href = "index.html";
+          }
+        });
+    </script>
+  </body>
 </html>

@@ -1,725 +1,809 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electronics | SoldOut</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ===== BASE STYLES ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    
-    html {
-      height: 100%;
-    }
-    
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background: #f5f5f5;
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    main {
-      flex: 1;
-      padding: 30px 0 60px;
-    }
-
-    /* ===== NAVIGATION ===== */
-    .top-nav {
-      background: #ff6b00;
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .top-nav .container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .logo {
-      height: 40px;
-      width: auto;
-    }
-    
-    .search-bar {
-      flex: 1;
-      min-width: 200px;
-      display: flex;
-      margin: 0 15px;
-    }
-    
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 1rem;
-    }
-    
-    .search-bar button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .search-bar button:hover {
-      background: #222;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: transform 0.2s;
-    }
-    
-    .nav-links a:hover {
-      transform: translateY(-2px);
-    }
-    
-    .cart-count {
-      background: #333;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      margin-left: 5px;
-    }
-    
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      cursor: pointer;
-    }
-
-    /* ===== PRODUCT GRID ===== */
-    .category-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .category-header h1 {
-      font-size: 2.5rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    .category-header p {
-      color: #666;
-      font-size: 1.1rem;
-    }
-    
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 25px;
-    }
-    
-    .product-card {
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-      position: relative;
-    }
-    
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    }
-    
-    .product-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #ff6b00;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-    
-    .product-image {
-      height: 200px;
-      background: #f9f9f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      position: relative;
-    }
-    
-    .product-image img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      transition: transform 0.3s;
-    }
-    
-    .product-card:hover .product-image img {
-      transform: scale(1.05);
-    }
-    
-    .product-info {
-      padding: 15px;
-    }
-    
-    .product-info h3 {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      color: #333;
-      height: 40px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-    
-    .price {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 10px 0;
-    }
-    
-    .old-price {
-      text-decoration: line-through;
-      color: #999;
-      font-size: 0.9rem;
-    }
-    
-    .new-price {
-      color: #ff6b00;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-    
-    .product-card button {
-      width: 100%;
-      padding: 10px;
-      background: #ff6b00;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 500;
-      margin-top: 10px;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .product-card button:hover {
-      background: #e05d00;
-    }
-    
-    .product-card button.added {
-      background: #28a745;
-    }
-    
-    .product-card button.added::after {
-      content: "✓ Added";
-    }
-
-    /* ===== TOAST NOTIFICATION ===== */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #28a745;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 4px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    
-    .toast i {
-      font-size: 1.2rem;
-    }
-
-    /* ===== FOOTER STYLES ===== */
-    footer {
-      background: #2c3e50;
-      color: #ecf0f1;
-      padding: 50px 0 0;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      padding: 40px 0;
-    }
-
-    .footer-section h3 {
-      color: #fff;
-      font-size: 18px;
-      margin-bottom: 20px;
-      position: relative;
-      padding-bottom: 10px;
-    }
-
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 50px;
-      height: 2px;
-      background: #ff6b00;
-    }
-
-    .footer-section ul {
-      list-style: none;
-    }
-
-    .footer-section ul li {
-      margin-bottom: 12px;
-    }
-
-    .footer-section ul li a {
-      color: #bdc3c7;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .footer-section ul li a:hover {
-      color: #ff6b00;
-      padding-left: 5px;
-    }
-
-    .footer-section ul li a i {
-      width: 20px;
-      text-align: center;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .social-links a {
-      color: white;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-    }
-
-    .social-links a:hover {
-      color: #ff6b00;
-      transform: translateY(-3px);
-    }
-
-    .newsletter-form {
-      display: flex;
-      margin-top: 15px;
-    }
-
-    .newsletter-form input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-    }
-
-    .newsletter-form button {
-      background: #ff6b00;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .newsletter-form button:hover {
-      background: #e05d00;
-    }
-
-    .copyright {
-      text-align: center;
-      padding: 20px 0;
-      border-top: 1px solid #34495e;
-      color: #7f8c8d;
-      font-size: 0.9rem;
-    }
-
-    /* ===== MEDIA QUERIES ===== */
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electronics | SoldOut</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
       }
-      
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px 0 0;
+
+      html {
+        height: 100%;
       }
-      
-      .nav-links.active {
+
+      body {
         display: flex;
-      }
-      
-      .top-nav .container {
         flex-direction: column;
-        align-items: flex-start;
+        min-height: 100vh;
+        background: #f5f5f5;
       }
-      
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      main {
+        flex: 1;
+        padding: 30px 0 60px;
+      }
+
+      /* ===== NAVIGATION ===== */
+      .top-nav {
+        background: #ff6b00;
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .top-nav .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+
+      .logo {
+        height: 40px;
+        width: auto;
+      }
+
       .search-bar {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        margin: 0 15px;
+      }
+
+      .search-bar input {
         width: 100%;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .search-bar button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .search-bar button:hover {
+        background: #222;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: transform 0.2s;
+      }
+
+      .nav-links a:hover {
+        transform: translateY(-2px);
+      }
+
+      .cart-count {
+        background: #333;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        margin-left: 5px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+      }
+
+      /* ===== PRODUCT GRID ===== */
+      .category-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .category-header h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .category-header p {
+        color: #666;
+        font-size: 1.1rem;
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 25px;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+        position: relative;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff6b00;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .product-image {
+        height: 200px;
+        background: #f9f9f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        position: relative;
+      }
+
+      .product-image img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.3s;
+      }
+
+      .product-card:hover .product-image img {
+        transform: scale(1.05);
+      }
+
+      .product-info {
+        padding: 15px;
+      }
+
+      .product-info h3 {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        color: #333;
+        height: 40px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .price {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         margin: 10px 0;
       }
-      
-      .products-grid {
-        grid-template-columns: 1fr 1fr;
+
+      .old-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 0.9rem;
       }
-    }
-    
-    @media (max-width: 480px) {
-      .products-grid {
-        grid-template-columns: 1fr;
+
+      .new-price {
+        color: #ff6b00;
+        font-weight: bold;
+        font-size: 1.2rem;
       }
-      
+
+      .product-card button {
+        width: 100%;
+        padding: 10px;
+        background: #ff6b00;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        margin-top: 10px;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .product-card button:hover {
+        background: #e05d00;
+      }
+
+      .product-card button.added {
+        background: #28a745;
+      }
+
+      .product-card button.added::after {
+        content: "✓ Added";
+      }
+
+      /* ===== TOAST NOTIFICATION ===== */
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 4px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .toast i {
+        font-size: 1.2rem;
+      }
+
+      /* ===== FOOTER STYLES ===== */
+      footer {
+        background: #2c3e50;
+        color: #ecf0f1;
+        padding: 50px 0 0;
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
       .footer-content {
-        grid-template-columns: 1fr;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        padding: 40px 0;
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Header -->
-  <nav class="top-nav">
-    <div class="container">
-      <a href="index.html"><img src="images/logo.png" alt="SoldOut Logo" class="logo"></a>
-      <div class="search-bar">
-        <input type="text" placeholder="Search electronics...">
-        <button><i class="fas fa-search"></i></button>
-      </div>
-      <div class="nav-links">
-        <a href="vendor-login.html" id="vendor-link"><i class="fas fa-store"></i> Sell</a>
-        <a href="account.html"><i class="fas fa-user"></i> Account</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
-      </div>
-    </div>
-    <button class="menu-toggle">☰</button>
-  </nav>
 
-  <!-- Main Content -->
-  <main class="container">
-    <div class="category-header">
-      <h1>Electronics</h1>
-      <p>Shop the latest gadgets and devices</p>
-    </div>
+      .footer-section h3 {
+        color: #fff;
+        font-size: 18px;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+      }
 
-    <div class="products-grid">
-      <!-- Product 1 -->
-      <div class="product-card">
-        <div class="product-badge">Sale</div>
-        <div class="product-image">
-          <img src="images/electronics/smartphone.jpg" alt="Premium Smartphone">
-        </div>
-        <div class="product-info">
-          <h3>Premium Smartphone with 128GB Storage and Triple Camera</h3>
-          <div class="price">
-            <span class="old-price">$799</span>
-            <span class="new-price">$699</span>
-          </div>
-          <button class="add-to-cart" data-id="p1" data-name="Premium Smartphone" data-price="699">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-      
-      <!-- Product 2 -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="images/electronics/laptop.jpg" alt="Ultra Slim Laptop">
-        </div>
-        <div class="product-info">
-          <h3>Ultra Slim Laptop with 16GB RAM and 512GB SSD</h3>
-          <div class="price">
-            <span class="new-price">$999</span>
-          </div>
-          <button class="add-to-cart" data-id="p2" data-name="Ultra Slim Laptop" data-price="999">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-      
-      <!-- Product 3 -->
-      <div class="product-card">
-        <div class="product-badge">Sale</div>
-        <div class="product-image">
-          <img src="images/electronics/headphones.jpg" alt="Wireless Headphones">
-        </div>
-        <div class="product-info">
-          <h3>Wireless Noise Cancelling Headphones with 30hr Battery</h3>
-          <div class="price">
-            <span class="old-price">$199</span>
-            <span class="new-price">$149</span>
-          </div>
-          <button class="add-to-cart" data-id="p3" data-name="Wireless Headphones" data-price="149">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-      
-      <!-- Product 4 -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="images/electronics/smartwatch.jpg" alt="Smart Watch">
-        </div>
-        <div class="product-info">
-          <h3>Smart Watch with Fitness Tracking and Heart Rate Monitor</h3>
-          <div class="price">
-            <span class="new-price">$249</span>
-          </div>
-          <button class="add-to-cart" data-id="p4" data-name="Smart Watch" data-price="249">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-      
-      <!-- Product 5 -->
-      <div class="product-card">
-        <div class="product-badge">Sale</div>
-        <div class="product-image">
-          <img src="images/electronics/tablet.jpg" alt="10-inch Tablet">
-        </div>
-        <div class="product-info">
-          <h3>10-inch Tablet with Stylus and 256GB Storage</h3>
-          <div class="price">
-            <span class="old-price">$349</span>
-            <span class="new-price">$299</span>
-          </div>
-          <button class="add-to-cart" data-id="p5" data-name="10-inch Tablet" data-price="299">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-      
-      <!-- Product 6 -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="images/electronics/camera.jpg" alt="Digital Camera">
-        </div>
-        <div class="product-info">
-          <h3>Digital Camera with 4K Video and 20MP Sensor</h3>
-          <div class="price">
-            <span class="new-price">$449</span>
-          </div>
-          <button class="add-to-cart" data-id="p6" data-name="Digital Camera" data-price="449">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-          </button>
-        </div>
-      </div>
-    </div>
-  </main>
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: #ff6b00;
+      }
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i>
-    <span id="toast-message">Item added to cart!</span>
-  </div>
+      .footer-section ul {
+        list-style: none;
+      }
 
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-content">
-      <div class="footer-section">
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
-          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
-          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Help Center</h3>
-        <ul>
-          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
-          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
-          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-          <li><a href="career.html"><i class="fas fa-briefcase"></i> Careers</a></li>
-          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Connect With Us</h3>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-        <p class="newsletter-text">Subscribe to our newsletter</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address" required>
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      <p>&copy; <span id="current-year">2023</span> SoldOut. All rights reserved.</p>
-    </div>
-  </footer>
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
 
-  <script>
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
+      .footer-section ul li a {
+        color: #bdc3c7;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-    // Initialize cart in localStorage if not exists
-    if (!localStorage.getItem('cart')) {
-      localStorage.setItem('cart', JSON.stringify([]));
-    }
+      .footer-section ul li a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
 
-    // Update cart count from localStorage
-    function updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart'));
-      const count = cart.reduce((total, item) => total + item.quantity, 0);
-      document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
-    }
+      .footer-section ul li a i {
+        width: 20px;
+        text-align: center;
+      }
 
-    // Show toast notification
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      
-      toastMessage.textContent = message;
-      toast.classList.add('show');
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
 
-    // Add to cart functionality
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-      button.addEventListener('click', function() {
-        const productId = this.getAttribute('data-id');
-        const productName = this.getAttribute('data-name');
-        const productPrice = parseFloat(this.getAttribute('data-price'));
-        
-        // Get cart from localStorage
-        const cart = JSON.parse(localStorage.getItem('cart'));
-        
-        // Check if product already in cart
-        const existingItem = cart.find(item => item.id === productId);
-        
-        if (existingItem) {
-          existingItem.quantity += 1;
-          showToast(`${productName} quantity updated in cart!`);
-        } else {
-          cart.push({
-            id: productId,
-            name: productName,
-            price: productPrice,
-            quantity: 1
-          });
-          showToast(`${productName} added to cart!`);
+      .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #ff6b00;
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .newsletter-form button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .newsletter-form button:hover {
+        background: #e05d00;
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #34495e;
+        color: #7f8c8d;
+        font-size: 0.9rem;
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
         }
-        
-        // Save back to localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        .products-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .products-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html"
+          ><img src="images/logo.png" alt="SoldOut Logo" class="logo"
+        /></a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search electronics..." />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+          <a href="index.html"><i class="fas fa-home"></i> Home</a>
+          <a href="vendor-login.html" id="vendor-link"
+            ><i class="fas fa-store"></i> Sell</a
+          >
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i> Cart
+            <span class="cart-count">0</span></a
+          >
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+      <div class="category-header">
+        <h1>Electronics</h1>
+        <p>Shop the latest gadgets and devices</p>
+      </div>
+
+      <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-badge">Sale</div>
+          <div class="product-image">
+            <img
+              src="images/electronics/smartphone.jpg"
+              alt="Premium Smartphone"
+            />
+          </div>
+          <div class="product-info">
+            <h3>Premium Smartphone with 128GB Storage and Triple Camera</h3>
+            <div class="price">
+              <span class="old-price">$799</span>
+              <span class="new-price">$699</span>
+            </div>
+            <button
+              class="add-to-cart"
+              data-id="p1"
+              data-name="Premium Smartphone"
+              data-price="699"
+            >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+          <div class="product-image">
+            <img src="images/electronics/laptop.jpg" alt="Ultra Slim Laptop" />
+          </div>
+          <div class="product-info">
+            <h3>Ultra Slim Laptop with 16GB RAM and 512GB SSD</h3>
+            <div class="price">
+              <span class="new-price">$999</span>
+            </div>
+            <button
+              class="add-to-cart"
+              data-id="p2"
+              data-name="Ultra Slim Laptop"
+              data-price="999"
+            >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+          <div class="product-badge">Sale</div>
+          <div class="product-image">
+            <img
+              src="imagees/JBL Live 770NC Wireless Over-Ear Adaptive Noise Canceling Headphones.jpg"
+              alt="Wireless Headphones"
+            />
+          </div>
+          <div class="product-info">
+            <h3>Wireless Noise Cancelling Headphones with 30hr Battery</h3>
+            <div class="price">
+              <span class="old-price">$199</span>
+              <span class="new-price">$149</span>
+            </div>
+            <button>
+              class="add-to-cart" data-id="p3" data-name="Wireless Headphones"
+              data-price="149" >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+          <div class="product-image">
+            <img src="images/electronics/smartwatch.jpg" alt="Smart Watch" />
+          </div>
+          <div class="product-info">
+            <h3>Smart Watch with Fitness Tracking and Heart Rate Monitor</h3>
+            <div class="price">
+              <span class="new-price">$249</span>
+            </div>
+            <button
+              class="add-to-cart"
+              data-id="p4"
+              data-name="Smart Watch"
+              data-price="249"
+            >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card">
+          <div class="product-badge">Sale</div>
+          <div class="product-image">
+            <img src="images/electronics/tablet.jpg" alt="10-inch Tablet" />
+          </div>
+          <div class="product-info">
+            <h3>10-inch Tablet with Stylus and 256GB Storage</h3>
+            <div class="price">
+              <span class="old-price">$349</span>
+              <span class="new-price">$299</span>
+            </div>
+            <button
+              class="add-to-cart"
+              data-id="p5"
+              data-name="10-inch Tablet"
+              data-price="299"
+            >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card">
+          <div class="product-image">
+            <img src="images/electronics/camera.jpg" alt="Digital Camera" />
+          </div>
+          <div class="product-info">
+            <h3>Digital Camera with 4K Video and 20MP Sensor</h3>
+            <div class="price">
+              <span class="new-price">$449</span>
+            </div>
+            <button
+              class="add-to-cart"
+              data-id="p6"
+              data-name="Digital Camera"
+              data-price="449"
+            >
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+      <i class="fas fa-check-circle"></i>
+      <span id="toast-message">Item added to cart!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>Shop</h3>
+          <ul>
+            <li>
+              <a href="electronics.html"
+                ><i class="fas fa-mobile-alt"></i> Electronics</a
+              >
+            </li>
+            <li>
+              <a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a>
+            </li>
+            <li>
+              <a href="home-kitchen.html"
+                ><i class="fas fa-home"></i> Home & Kitchen</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Help Center</h3>
+          <ul>
+            <li>
+              <a href="customer-service.html"
+                ><i class="fas fa-headset"></i> Customer Service</a
+              >
+            </li>
+            <li>
+              <a href="track-order.html"
+                ><i class="fas fa-truck"></i> Track Order</a
+              >
+            </li>
+            <li>
+              <a href="retuns.html"
+                ><i class="fas fa-exchange-alt"></i> Returns & Refunds</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <a href="about-us.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="career.html"><i class="fas fa-briefcase"></i> Careers</a>
+            </li>
+            <li>
+              <a href="privacy-policy.html"
+                ><i class="fas fa-lock"></i> Privacy Policy</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <p class="newsletter-text">Subscribe to our newsletter</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" required />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>
+          &copy; <span id="current-year">2023</span> SoldOut. All rights
+          reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+
+      // Initialize cart in localStorage if not exists
+      if (!localStorage.getItem("cart")) {
+        localStorage.setItem("cart", JSON.stringify([]));
+      }
+
+      // Update cart count from localStorage
+      function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        document
+          .querySelectorAll(".cart-count")
+          .forEach((el) => (el.textContent = count));
+      }
+
+      // Show toast notification
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+
+        toastMessage.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 3000);
+      }
+
+      // Add to cart functionality
+      document.querySelectorAll(".add-to-cart").forEach((button) => {
+        button.addEventListener("click", function () {
+          const productId = this.getAttribute("data-id");
+          const productName = this.getAttribute("data-name");
+          const productPrice = parseFloat(this.getAttribute("data-price"));
+
+          // Get cart from localStorage
+          const cart = JSON.parse(localStorage.getItem("cart"));
+
+          // Check if product already in cart
+          const existingItem = cart.find((item) => item.id === productId);
+
+          if (existingItem) {
+            existingItem.quantity += 1;
+            showToast(`${productName} quantity updated in cart!`);
+          } else {
+            cart.push({
+              id: productId,
+              name: productName,
+              price: productPrice,
+              quantity: 1,
+            });
+            showToast(`${productName} added to cart!`);
+          }
+
+          // Save back to localStorage
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          // Update cart count
+          updateCartCount();
+
+          // Visual feedback on button
+          this.classList.add("added");
+          this.innerHTML = '<i class="fas fa-check"></i> Added';
+
+          // Reset button after delay
+          setTimeout(() => {
+            this.classList.remove("added");
+            this.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
+          }, 2000);
+        });
+      });
+
+      // Initialize page
+      document.addEventListener("DOMContentLoaded", function () {
         // Update cart count
         updateCartCount();
-        
-        // Visual feedback on button
-        this.classList.add('added');
-        this.innerHTML = '<i class="fas fa-check"></i> Added';
-        
-        // Reset button after delay
-        setTimeout(() => {
-          this.classList.remove('added');
-          this.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Cart';
-        }, 2000);
-      });
-    });
 
-    // Initialize page
-    document.addEventListener('DOMContentLoaded', function() {
-      // Update cart count
-      updateCartCount();
-      
-      // Update copyright year automatically
-      document.getElementById('current-year').textContent = new Date().getFullYear();
-    });
-  </script>
-</body>
+        // Update copyright year automatically
+        document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+      });
+    </script>
+  </body>
 </html>

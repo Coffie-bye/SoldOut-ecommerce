@@ -125,6 +125,24 @@
             border-radius: 4px;
         }
         
+        .paystack-button {
+            background-color: #0AB579;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .paystack-button:hover {
+            background-color: #089e6b;
+            transform: translateY(-2px);
+        }
+        
         @media (min-width: 768px) {
             .checkout-container {
                 grid-template-columns: 1fr 1fr;
@@ -167,12 +185,12 @@
             <h1>Checkout</h1>
             
             <h2>Shipping Information</h2>
-            <input type="text" placeholder="Full Name" required>
-            <input type="text" placeholder="Address" required>
-            <input type="text" placeholder="City" required>
-            <input type="text" placeholder="Zip/Postal Code" required>
-            <input type="email" placeholder="Email" required>
-            <input type="tel" placeholder="Phone Number" required>
+            <input type="text" id="full-name" placeholder="Full Name" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="text" id="city" placeholder="City" required>
+            <input type="text" id="zip-code" placeholder="Zip/Postal Code" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
             
             <h2>Payment Method</h2>
             <select id="payment-method">
@@ -180,6 +198,7 @@
                 <option value="paypal">PayPal</option>
                 <option value="applepay">Apple Pay</option>
                 <option value="googlepay">Google Pay</option>
+                <option value="paystack">Paystack (Africa)</option>
             </select>
             
             <div id="credit-card-fields">
@@ -191,27 +210,97 @@
                 <input type="text" placeholder="Name on Card" required>
             </div>
             
-            <button type="submit">Place Order</button>
+            <button type="submit" id="place-order-btn">Place Order</button>
+            <button type="button" id="paystack-btn" class="paystack-button" style="display: none;">Pay with Paystack</button>
         </form>
     </div>
     
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <script>
         // Payment method toggle
         document.getElementById('payment-method').addEventListener('change', function() {
             const creditCardFields = document.getElementById('credit-card-fields');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            const paystackBtn = document.getElementById('paystack-btn');
+            
             if (this.value === 'credit') {
                 creditCardFields.style.display = 'block';
+                placeOrderBtn.style.display = 'block';
+                paystackBtn.style.display = 'none';
+            } else if (this.value === 'paystack') {
+                creditCardFields.style.display = 'none';
+                placeOrderBtn.style.display = 'none';
+                paystackBtn.style.display = 'block';
             } else {
                 creditCardFields.style.display = 'none';
+                placeOrderBtn.style.display = 'block';
+                paystackBtn.style.display = 'none';
             }
         });
 
-        // Form submission
+        // Form submission for non-Paystack payments
         document.getElementById('checkout-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Order placed successfully!');
-            // In a real application, you would process the payment here
+            if (document.getElementById('payment-method').value !== 'paystack') {
+                alert('Order placed successfully!');
+                // In a real application, you would process the payment here
+            }
         });
+
+        // Paystack payment handler
+        document.getElementById('paystack-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const amount = 8596; // Amount in kobo (85.96 USD * 100)
+            const name = document.getElementById('full-name').value;
+            
+            // In production, you should get this from your server for security
+            const publicKey = 'pk_test_your_paystack_public_key'; // Replace with your Paystack public key
+            
+            // Convert USD to Naira or other local currencies if needed
+            // You might want to handle currency conversion on your server
+            
+            const handler = PaystackPop.setup({
+                key: publicKey,
+                email: email,
+                amount: amount,
+                currency: 'USD', // or 'NGN' for Nigerian Naira
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // Generate a random reference
+                firstname: name.split(' ')[0],
+                lastname: name.split(' ')[1] || '',
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Phone Number",
+                            variable_name: "phone",
+                            value: document.getElementById('phone').value
+                        },
+                        {
+                            display_name: "Shipping Address",
+                            variable_name: "address",
+                            value: document.getElementById('address').value + ', ' + 
+                                   document.getElementById('city').value + ', ' + 
+                                   document.getElementById('zip-code').value
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    // Payment successful - send reference to your server for verification
+                    alert('Payment complete! Reference: ' + response.reference);
+                    // Here you would typically submit the form to your server
+                    // or redirect to a success page
+                },
+                onClose: function() {
+                    alert('Payment window closed');
+                }
+            });
+            
+            handler.openIframe();
+        });
+
+        // Initialize the payment method display
+        document.getElementById('payment-method').dispatchEvent(new Event('change'));
     </script>
 </body>
 </html>
