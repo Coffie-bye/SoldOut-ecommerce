@@ -1,622 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Addresses | SoldOut</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ===== BASE STYLES ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    
-    html {
-      height: 100%;
-    }
-    
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background: #f5f5f5;
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    main {
-      flex: 1;
-      padding-bottom: 40px;
-    }
-    
-    /* ===== NAVIGATION ===== */
-    .top-nav {
-      background: #ff6b00;
-      padding: 15px 0;
-      position: relative;
-    }
-    
-    .top-nav .container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .logo {
-      height: 40px;
-      width: auto;
-    }
-    
-    .search-bar {
-      flex: 1;
-      min-width: 200px;
-      display: flex;
-      margin: 0 15px;
-    }
-    
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 1rem;
-    }
-    
-    .search-bar button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      cursor: pointer;
-    }
-    
-    /* ===== ACCOUNT PAGE STYLES ===== */
-    .account-header {
-      margin: 30px 0;
-      text-align: center;
-    }
-    
-    .account-header h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    .account-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-bottom: 40px;
-    }
-    
-    .account-sidebar {
-      width: 250px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
-    }
-    
-    .account-content {
-      flex: 1;
-      min-width: 300px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
-    
-    .user-profile {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .user-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 15px;
-      font-size: 2rem;
-      color: #666;
-    }
-    
-    .user-name {
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    
-    .user-email {
-      color: #666;
-      font-size: 0.9rem;
-    }
-    
-    .account-menu {
-      list-style: none;
-    }
-    
-    .account-menu li {
-      margin-bottom: 10px;
-    }
-    
-    .account-menu a {
-      display: block;
-      padding: 10px;
-      color: #333;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: all 0.3s;
-    }
-    
-    .account-menu a:hover, 
-    .account-menu a.active {
-      background: #ff6b00;
-      color: white;
-    }
-    
-    .account-menu a i {
-      width: 20px;
-      text-align: center;
-      margin-right: 10px;
-    }
-    
-    .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    /* Addresses Page Specific Styles */
-    .no-addresses {
-      text-align: center;
-      padding: 40px 0;
-      color: #666;
-    }
-    
-    .no-addresses a {
-      color: #ff6b00;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    
-    .no-addresses a:hover {
-      text-decoration: underline;
-    }
-    
-    .add-address-btn {
-      background: #ff6b00;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .add-address-btn:hover {
-      background: #e05d00;
-    }
-    
-    .address-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    
-    .address-card {
-      border: 1px solid #eee;
-      border-radius: 8px;
-      padding: 20px;
-      position: relative;
-      transition: all 0.3s;
-    }
-    
-    .address-card:hover {
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    
-    .address-card.default {
-      border: 2px solid #ff6b00;
-    }
-    
-    .address-name {
-      font-weight: 600;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
-    
-    .default-badge {
-      background: #ff6b00;
-      color: white;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-    
-    .address-details {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-    
-    .address-phone {
-      margin-top: 10px;
-      font-weight: 500;
-    }
-    
-    .address-actions {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-    }
-    
-    .address-actions a {
-      color: #ff6b00;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    
-    .address-actions a:hover {
-      text-decoration: underline;
-    }
-    
-    /* Address Form Styles */
-    .address-form {
-      display: none;
-      margin-top: 30px;
-      padding: 20px;
-      background: #f9f9f9;
-      border-radius: 8px;
-    }
-    
-    .address-form.active {
-      display: block;
-    }
-    
-    .form-group {
-      margin-bottom: 15px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #555;
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    
-    .form-group textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #ff6b00;
-    }
-    
-    .form-row {
-      display: flex;
-      gap: 15px;
-    }
-    
-    .form-row .form-group {
-      flex: 1;
-    }
-    
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    
-    .btn {
-      padding: 10px 20px;
-      border-radius: 4px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .btn-primary {
-      background: #ff6b00;
-      color: white;
-      border: none;
-    }
-    
-    .btn-primary:hover {
-      background: #e05d00;
-    }
-    
-    .btn-secondary {
-      background: #eee;
-      color: #333;
-      border: none;
-    }
-    
-    .btn-secondary:hover {
-      background: #ddd;
-    }
-    
-    /* ===== FOOTER ===== */
-    footer {
-      background: #333;
-      color: white;
-      padding: 30px 0 0;
-      width: 100%;
-      margin-top: auto;
-    }
-    
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      padding: 40px 0;
-    }
-    
-    .footer-section h3 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 50px;
-      height: 2px;
-      background: #ff6b00;
-    }
-    
-    .footer-section ul {
-      list-style: none;
-    }
-    
-    .footer-section ul li {
-      margin-bottom: 12px;
-    }
-    
-    .footer-section ul li a {
-      color: #ccc;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .footer-section ul li a:hover {
-      color: #ff6b00;
-      padding-left: 5px;
-    }
-    
-    .footer-section ul li a i {
-      width: 20px;
-      text-align: center;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .social-links a {
-      color: white;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-    }
-    
-    .social-links a:hover {
-      color: #ff6b00;
-      transform: translateY(-3px);
-    }
-    
-    .newsletter-form {
-      display: flex;
-      margin-top: 15px;
-    }
-    
-    .newsletter-form input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-    }
-    
-    .newsletter-form button {
-      background: #ff6b00;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .copyright {
-      text-align: center;
-      padding: 20px 0;
-      border-top: 1px solid #444;
-      color: #aaa;
-      font-size: 0.9rem;
-      margin-top: 30px;
-    }
-    
-    /* ===== MEDIA QUERIES ===== */
-    @media (max-width: 768px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Addresses | SoldOut</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      html {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #f5f5f5;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      main {
+        flex: 1;
+        padding-bottom: 40px;
+      }
+
+      /* ===== NAVIGATION ===== */
+      .top-nav {
+        background: #ff6b00;
+        padding: 15px 0;
+        position: relative;
+      }
+
+      .top-nav .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+
+      .logo {
+        height: 40px;
+        width: auto;
+      }
+
+      .search-bar {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        margin: 0 15px;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .search-bar button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
       .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+      }
+
+      /* ===== ACCOUNT PAGE STYLES ===== */
+      .account-header {
+        margin: 30px 0;
+        text-align: center;
+      }
+
+      .account-header h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .account-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .account-sidebar {
+        width: 250px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+
+      .account-content {
+        flex: 1;
+        min-width: 300px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+
+      .user-profile {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 2rem;
+        color: #666;
+      }
+
+      .user-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .user-email {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .account-menu {
+        list-style: none;
+      }
+
+      .account-menu li {
+        margin-bottom: 10px;
+      }
+
+      .account-menu a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+
+      .account-menu a:hover,
+      .account-menu a.active {
+        background: #ff6b00;
+        color: white;
+      }
+
+      .account-menu a i {
+        width: 20px;
+        text-align: center;
+        margin-right: 10px;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Addresses Page Specific Styles */
+      .no-addresses {
+        text-align: center;
+        padding: 40px 0;
+        color: #666;
+      }
+
+      .no-addresses a {
+        color: #ff6b00;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .no-addresses a:hover {
+        text-decoration: underline;
+      }
+
+      .add-address-btn {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .add-address-btn:hover {
+        background: #e05d00;
+      }
+
+      .address-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .address-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 20px;
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      .address-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .address-card.default {
+        border: 2px solid #ff6b00;
+      }
+
+      .address-name {
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .default-badge {
+        background: #ff6b00;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .address-details {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 15px;
+      }
+
+      .address-phone {
+        margin-top: 10px;
+        font-weight: 500;
+      }
+
+      .address-actions {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+
+      .address-actions a {
+        color: #ff6b00;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .address-actions a:hover {
+        text-decoration: underline;
+      }
+
+      /* Address Form Styles */
+      .address-form {
+        display: none;
+        margin-top: 30px;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .address-form.active {
         display: block;
       }
-      
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px 0 0;
-      }
-      
-      .nav-links.active {
-        display: flex;
-      }
-      
-      .top-nav .container {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .search-bar {
-        width: 100%;
-        margin: 10px 0;
-      }
-      
-      .account-sidebar {
-        width: 100%;
-      }
-      
-      .account-content {
-        min-width: 100%;
-      }
-      
-      .form-row {
-        flex-direction: column;
-        gap: 0;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Navbar -->
-  <nav class="top-nav">
-    <div class="container">
-      <a href="index.html"><img src="images/logo.png" alt="SoldOut Logo" class="logo"></a>
-      <div class="search-bar">
-        <input type="text" placeholder="Search products...">
-        <button><i class="fas fa-search"></i></button>
-      </div>
-      <div class="nav-links">
-        <a href="vendor-login.html"><i class="fas fa-store"></i> Sell</a>
-        <a href="account.html"><i class="fas fa-user"></i> Account</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
-      </div>
-    </div>
-    <button class="menu-toggle">☰</button>
-  </nav>
 
-  <!-- Addresses Content -->
-  <main class="container">
-    <div class="account-header">
-      <h1>My Addresses</h1>
-      <p>Manage your shipping addresses</p>
-    </div>
-    
-    <div class="account-container">
-      <!-- Account Sidebar -->
-      <div class="account-sidebar">
-        <div class="user-profile">
-          <div class="user-avatar">
-            <i class="fas fa-user"></i>
-          </div>
-          <div class="user-name">John Doe</div>
-          <div class="user-email">john.doe@example.com</div>
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #ff6b00;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 15px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background: #ff6b00;
+        color: white;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background: #e05d00;
+      }
+
+      .btn-secondary {
+        background: #eee;
+        color: #333;
+        border: none;
+      }
+
+      .btn-secondary:hover {
+        background: #ddd;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: #333;
+        color: white;
+        padding: 30px 0 0;
+        width: 100%;
+        margin-top: auto;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        padding: 40px 0;
+      }
+
+      .footer-section h3 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: #ff6b00;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-section ul li a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
+
+      .footer-section ul li a i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #ff6b00;
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .newsletter-form button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+        color: #aaa;
+        font-size: 0.9rem;
+        margin-top: 30px;
+      }
+
+      /* ===== MEDIA QUERIES ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        .account-sidebar {
+          width: 100%;
+        }
+
+        .account-content {
+          min-width: 100%;
+        }
+
+        .form-row {
+          flex-direction: column;
+          gap: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+      <div class="container">
+        <a href="index.html"
+          ><img
+            src="download__14_-removebg-preview.png"
+            alt="SoldOut Logo"
+            class="logo"
+        /></a>
+        <div class="search-bar">
+          <input type="text" placeholder="Search products..." />
+          <button><i class="fas fa-search"></i></button>
         </div>
-        
-        <ul class="account-menu">
-          <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
-          <li><a href="orders.html"><i class="fas fa-box"></i> Orders</a></li>
-          <li><a href="addresses.html" class="active"><i class="fas fa-map-marker-alt"></i> Addresses</a></li>
-          <li><a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a></li>
-          <li><a href="payment-methods.html"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
-          <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
-          <li><a href="index.html" id="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
+        <div class="nav-links">
+          <a href="vendor-login.html"><i class="fas fa-store"></i> Sell</a>
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i> Cart
+            <span class="cart-count">0</span></a
+          >
+        </div>
       </div>
-      
-      <!-- Addresses Main Content -->
-      <div class="account-content">
-        <div class="section-title-container">
-          <h2 class="section-title">Saved Addresses</h2>
-          <button class="add-address-btn" id="add-address-btn">
-            <i class="fas fa-plus"></i> Add New Address
-          </button>
+      <button class="menu-toggle">☰</button>
+    </nav>
+
+    <!-- Addresses Content -->
+    <main class="container">
+      <div class="account-header">
+        <h1>My Addresses</h1>
+        <p>Manage your shipping addresses</p>
+      </div>
+
+      <div class="account-container">
+        <!-- Account Sidebar -->
+        <div class="account-sidebar">
+          <div class="user-profile">
+            <div class="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="user-name">John Doe</div>
+            <div class="user-email">john.doe@example.com</div>
+          </div>
+
+          <ul class="account-menu">
+            <li>
+              <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            </li>
+            <li>
+              <a href="orders.html"><i class="fas fa-box"></i> Orders</a>
+            </li>
+            <li>
+              <a href="addresses.html" class="active"
+                ><i class="fas fa-map-marker-alt"></i> Addresses</a
+              >
+            </li>
+            <li>
+              <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+            </li>
+            <li>
+              <a href="payment-methods.html"
+                ><i class="fas fa-credit-card"></i> Payment Methods</a
+              >
+            </li>
+            <li>
+              <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+            <li>
+              <a href="index.html" id="logout-link"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+              >
+            </li>
+          </ul>
         </div>
-        
-        <!-- Example when there are no addresses -->
-        <div class="no-addresses">
-          <p>You haven't saved any addresses yet.</p>
-        </div>
-        
-        <!-- Example address cards (commented out for now) -->
-        <!--
+
+        <!-- Addresses Main Content -->
+        <div class="account-content">
+          <div class="section-title-container">
+            <h2 class="section-title">Saved Addresses</h2>
+            <button class="add-address-btn" id="add-address-btn">
+              <i class="fas fa-plus"></i> Add New Address
+            </button>
+          </div>
+
+          <!-- Example when there are no addresses -->
+          <div class="no-addresses">
+            <p>You haven't saved any addresses yet.</p>
+          </div>
+
+          <!-- Example address cards (commented out for now) -->
+          <!--
         <div class="address-grid">
           <div class="address-card default">
             <div class="address-name">
@@ -658,194 +689,246 @@
           </div>
         </div>
         -->
-        
-        <!-- Address Form (hidden by default) -->
-        <div class="address-form" id="address-form">
-          <h3>Add New Address</h3>
-          <form id="new-address-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="address-type">Address Type</label>
-                <select id="address-type" required>
-                  <option value="">Select type</option>
-                  <option value="home">Home</option>
-                  <option value="work">Work</option>
-                  <option value="other">Other</option>
-                </select>
+
+          <!-- Address Form (hidden by default) -->
+          <div class="address-form" id="address-form">
+            <h3>Add New Address</h3>
+            <form id="new-address-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="address-type">Address Type</label>
+                  <select id="address-type" required>
+                    <option value="">Select type</option>
+                    <option value="home">Home</option>
+                    <option value="work">Work</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="full-name">Full Name</label>
+                  <input type="text" id="full-name" required />
+                </div>
               </div>
+
               <div class="form-group">
-                <label for="full-name">Full Name</label>
-                <input type="text" id="full-name" required>
+                <label for="address-line1">Address Line 1</label>
+                <input type="text" id="address-line1" required />
               </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="address-line1">Address Line 1</label>
-              <input type="text" id="address-line1" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="address-line2">Address Line 2 (Optional)</label>
-              <input type="text" id="address-line2">
-            </div>
-            
-            <div class="form-row">
+
               <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" required>
+                <label for="address-line2">Address Line 2 (Optional)</label>
+                <input type="text" id="address-line2" />
               </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" required />
+                </div>
+                <div class="form-group">
+                  <label for="state">State/Province</label>
+                  <input type="text" id="state" required />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="zip-code">ZIP/Postal Code</label>
+                  <input type="text" id="zip-code" required />
+                </div>
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <select id="country" required>
+                    <option value="">Select country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="UK">United Kingdom</option>
+                    <!-- More countries can be added -->
+                  </select>
+                </div>
+              </div>
+
               <div class="form-group">
-                <label for="state">State/Province</label>
-                <input type="text" id="state" required>
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required />
               </div>
-            </div>
-            
-            <div class="form-row">
+
               <div class="form-group">
-                <label for="zip-code">ZIP/Postal Code</label>
-                <input type="text" id="zip-code" required>
+                <label for="instructions"
+                  >Delivery Instructions (Optional)</label
+                >
+                <textarea id="instructions"></textarea>
               </div>
+
               <div class="form-group">
-                <label for="country">Country</label>
-                <select id="country" required>
-                  <option value="">Select country</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="UK">United Kingdom</option>
-                  <!-- More countries can be added -->
-                </select>
+                <input type="checkbox" id="set-default" />
+                <label for="set-default">Set as default shipping address</label>
               </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="instructions">Delivery Instructions (Optional)</label>
-              <textarea id="instructions"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <input type="checkbox" id="set-default">
-              <label for="set-default">Set as default shipping address</label>
-            </div>
-            
-            <div class="form-actions">
-              <button type="button" class="btn btn-secondary" id="cancel-address">Cancel</button>
-              <button type="submit" class="btn btn-primary">Save Address</button>
-            </div>
+
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="cancel-address"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save Address
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>Shop</h3>
+          <ul>
+            <li>
+              <a href="electronics.html"
+                ><i class="fas fa-mobile-alt"></i> Electronics</a
+              >
+            </li>
+            <li>
+              <a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a>
+            </li>
+            <li>
+              <a href="home-kitchen.html"
+                ><i class="fas fa-home"></i> Home & Kitchen</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Help Center</h3>
+          <ul>
+            <li>
+              <a href="customer-service.html"
+                ><i class="fas fa-headset"></i> Customer Service</a
+              >
+            </li>
+            <li>
+              <a href="track-order.html"
+                ><i class="fas fa-truck"></i> Track Order</a
+              >
+            </li>
+            <li>
+              <a href="returns.html"
+                ><i class="fas fa-exchange-alt"></i> Returns & Refunds</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <a href="about-us.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="careers.html"
+                ><i class="fas fa-briefcase"></i> Careers</a
+              >
+            </li>
+            <li>
+              <a href="privacy-policy.html"
+                ><i class="fas fa-lock"></i> Privacy Policy</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <p class="newsletter-text">Subscribe to our newsletter</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
           </form>
         </div>
       </div>
-    </div>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-content">
-      <div class="footer-section">
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
-          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
-          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
-        </ul>
+      <div class="copyright">
+        <p>&copy; 2023 SoldOut. All rights reserved.</p>
       </div>
-      
-      <div class="footer-section">
-        <h3>Help Center</h3>
-        <ul>
-          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
-          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
-          <li><a href="returns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-          <li><a href="careers.html"><i class="fas fa-briefcase"></i> Careers</a></li>
-          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Connect With Us</h3>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-        <p class="newsletter-text">Subscribe to our newsletter</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address">
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      <p>&copy; 2023 SoldOut. All rights reserved.</p>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
 
-    // Update cart count from localStorage
-    document.addEventListener('DOMContentLoaded', function() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const count = cart.reduce((total, item) => total + item.quantity, 0);
-      document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
-      
-      // Highlight current page in sidebar
-      const currentPage = window.location.pathname.split('/').pop();
-      const menuLinks = document.querySelectorAll('.account-menu a');
-      
-      menuLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-          link.classList.add('active');
-        }
-      });
-    });
+      // Update cart count from localStorage
+      document.addEventListener("DOMContentLoaded", function () {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        document
+          .querySelectorAll(".cart-count")
+          .forEach((el) => (el.textContent = count));
 
-    // Logout functionality
-    document.getElementById('logout-link').addEventListener('click', function(e) {
-      e.preventDefault();
-      localStorage.removeItem('authToken');
-      window.location.href = "index.html";
-    });
+        // Highlight current page in sidebar
+        const currentPage = window.location.pathname.split("/").pop();
+        const menuLinks = document.querySelectorAll(".account-menu a");
 
-    // Address form toggle
-    const addAddressBtn = document.getElementById('add-address-btn');
-    const addressForm = document.getElementById('address-form');
-    const cancelAddressBtn = document.getElementById('cancel-address');
-    
-    if (addAddressBtn && addressForm && cancelAddressBtn) {
-      addAddressBtn.addEventListener('click', function() {
-        addressForm.classList.add('active');
-        document.getElementById('no-addresses').style.display = 'none';
+        menuLinks.forEach((link) => {
+          if (link.getAttribute("href") === currentPage) {
+            link.classList.add("active");
+          }
+        });
       });
-      
-      cancelAddressBtn.addEventListener('click', function() {
-        addressForm.classList.remove('active');
-      });
-      
-      document.getElementById('new-address-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Here you would handle the form submission
-        alert('Address saved successfully!');
-        addressForm.classList.remove('active');
-        // In a real app, you would add the new address to the display
-      });
-    }
-  </script>
-</body>
+
+      // Logout functionality
+      document
+        .getElementById("logout-link")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          localStorage.removeItem("authToken");
+          window.location.href = "index.html";
+        });
+
+      // Address form toggle
+      const addAddressBtn = document.getElementById("add-address-btn");
+      const addressForm = document.getElementById("address-form");
+      const cancelAddressBtn = document.getElementById("cancel-address");
+
+      if (addAddressBtn && addressForm && cancelAddressBtn) {
+        addAddressBtn.addEventListener("click", function () {
+          addressForm.classList.add("active");
+          document.getElementById("no-addresses").style.display = "none";
+        });
+
+        cancelAddressBtn.addEventListener("click", function () {
+          addressForm.classList.remove("active");
+        });
+
+        document
+          .getElementById("new-address-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            // Here you would handle the form submission
+            alert("Address saved successfully!");
+            addressForm.classList.remove("active");
+            // In a real app, you would add the new address to the display
+          });
+      }
+    </script>
+  </body>
 </html>

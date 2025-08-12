@@ -1,501 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vendor Registration | SoldOut</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="module" src="script.js" defer></script>
-  <style>
-    /* ===== BASE STYLES ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    
-    body {
-      background: #f5f5f5;
-      position: relative;
-      padding-bottom: 60px;
-      min-height: 100vh;
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    /* ===== NAVIGATION ===== */
-    .top-nav {
-      background: #ff6b00;
-      padding: 15px 0;
-      position: relative;
-    }
-    
-    .top-nav .container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .logo {
-      height: 40px;
-      width: auto;
-    }
-    
-    .search-bar {
-      flex: 1;
-      min-width: 200px;
-      display: flex;
-      margin: 0 15px;
-    }
-    
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 1rem;
-    }
-    
-    .search-bar button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      cursor: pointer;
-    }
-    
-    /* ===== AUTH STYLES ===== */
-    .auth-container {
-      max-width: 500px;
-      margin: 50px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .auth-container h2 {
-      color: #333;
-      margin-bottom: 25px;
-      text-align: center;
-      font-size: 1.8rem;
-    }
-    
-    .auth-container h2 i {
-      color: #ff6b00;
-      margin-right: 10px;
-    }
-    
-    .auth-container input {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-    
-    .auth-container button[type="submit"] {
-      width: 100%;
-      padding: 12px;
-      background: #ff6b00;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
-    .auth-container button[type="submit"]:hover {
-      background: #e05d00;
-    }
-    
-    .auth-links {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    
-    .auth-links a {
-      color: #666;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    
-    .auth-links a:hover {
-      color: #ff6b00;
-    }
-    
-    .back-to-store {
-      display: block;
-      margin-top: 30px;
-      text-align: center;
-      color: #666;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    
-    .back-to-store:hover {
-      color: #ff6b00;
-    }
-    
-    /* ===== FOOTER ===== */
-    footer {
-      background: #000000;
-      color: white;
-      padding: 30px 0;
-      position: 0;
-      bottom: 0;
-      width: 100%;
-    }
-    
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      padding: 40px 0;
-    }
-    
-    .footer-section h3 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 50px;
-      height: 2px;
-      background: #ff6b00;
-    }
-    
-    .footer-section ul {
-      list-style: none;
-    }
-    
-    .footer-section ul li {
-      margin-bottom: 12px;
-    }
-    
-    .footer-section ul li a {
-      color: #ccc;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .footer-section ul li a:hover {
-      color: #ff6b00;
-      padding-left: 5px;
-    }
-    
-    .footer-section ul li a i {
-      width: 20px;
-      text-align: center;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .social-links a {
-      color: white;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-    }
-    
-    .social-links a:hover {
-      color: #ff6b00;
-      transform: translateY(-3px);
-    }
-    
-    .newsletter-form {
-      display: flex;
-      margin-top: 15px;
-    }
-    
-    .newsletter-form input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-    }
-    
-    .newsletter-form button {
-      background: #ff6b00;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .copyright {
-      text-align: center;
-      padding: 20px 0;
-      border-top: 1px solid #444;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-    
-    /* ===== MOBILE MENU ===== */
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vendor Registration | SoldOut</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script type="module" src="script.js" defer></script>
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
       }
-      
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px 0 0;
+
+      body {
+        background: #f5f5f5;
+        position: relative;
+        padding-bottom: 60px;
+        min-height: 100vh;
       }
-      
-      .nav-links.active {
-        display: flex;
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      
+
+      /* ===== NAVIGATION ===== */
+      .top-nav {
+        background: #ff6b00;
+        padding: 15px 0;
+        position: relative;
+      }
+
       .top-nav .container {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
       }
-      
+
+      .logo {
+        height: 40px;
+        width: auto;
+      }
+
       .search-bar {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        margin: 0 15px;
+      }
+
+      .search-bar input {
         width: 100%;
-        margin: 10px 0;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
       }
-      
+
+      .search-bar button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+      }
+
+      /* ===== AUTH STYLES ===== */
       .auth-container {
-        margin: 30px auto;
-        padding: 20px;
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Navbar -->
-  <nav class="top-nav">
-    <div class="container">
-      <img src="images/logo.png" alt="SoldOut Logo" class="logo">
-      <div class="search-bar">
-        <input type="text" placeholder="Search products...">
-        <button><i class="fas fa-search"></i></button>
-      </div>
-      <div class="nav-links">
-        <a href="vendor-login.html" id="vendor-link"><i class="fas fa-store"></i> Sell</a>
-        <a href="account.html"><i class="fas fa-user"></i> Account</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
-      </div>
-    </div>
-    <button class="menu-toggle">☰</button>
-  </nav>
 
-  <!-- Vendor Registration Form -->
-  <div class="container">
-    <div class="auth-container">
-      <h2><i class="fas fa-store"></i> Vendor Registration</h2>
-      <form id="vendor-register-form">
-        <input type="text" id="vendor-first-name" placeholder="First Name" required>
-        <input type="text" id="vendor-last-name" placeholder="Last Name" required>
-        <input type="text" id="vendor-store-name" placeholder="Store Name" required>
-        <input type="email" id="vendor-email" placeholder="Email address" required>
-        <input type="password" id="vendor-password" placeholder="Password" required>
-        <input type="tel" id="vendor-phone" placeholder="Phone Number">
-        <button type="submit">Register</button>
-      </form>
-      
-      <div class="auth-links">
-        <a href="vendor-login.html">Already have an account? Login</a>
-      </div>
-      
-      <a href="index.html" class="back-to-store">← Back to store</a>
-    </div>
-  </div>
+      .auth-container h2 {
+        color: #333;
+        margin-bottom: 25px;
+        text-align: center;
+        font-size: 1.8rem;
+      }
 
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-content">
-      <div class="footer-section">
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
-          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
-          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Help Center</h3>
-        <ul>
-          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
-          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
-          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-          <li><a href="career.html"><i class="fas fa-briefcase"></i> Careers</a></li>
-          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Connect With Us</h3>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-        <p class="newsletter-text">Subscribe to our newsletter</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address">
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      <p>&copy; 2023 SoldOut. All rights reserved.</p>
-    </div>
-  </footer>
+      .auth-container h2 i {
+        color: #ff6b00;
+        margin-right: 10px;
+      }
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCYcJnzYODrfcdkT5qAY6Bo5BTF4--IkQ8",
-      authDomain: "login-d08d2.firebaseapp.com",
-      projectId: "login-d08d2",
-      storageBucket: "login-d08d2.firebasestorage.app",
-      messagingSenderId: "70139036683",
-      appId: "1:70139036683:web:f9d9f2c576f17baa83330e"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    
-    // Check for Google Sign-In
-    const urlParams = new URLSearchParams(window.location.search);
-    const isGoogleSignIn = urlParams.get('googleSignIn') === 'true';
+      .auth-container input {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
 
-    // Auto-fill form for Google users
-    if (isGoogleSignIn && auth.currentUser) {
-      const user = auth.currentUser;
-      document.getElementById('vendor-email').value = user.email || '';
-      document.getElementById('vendor-email').readOnly = true;
-      
-      if (user.displayName) {
-        const names = user.displayName.split(' ');
-        document.getElementById('vendor-first-name').value = names[0] || '';
-        if (names.length > 1) {
-          document.getElementById('vendor-last-name').value = names.slice(1).join(' ');
+      .auth-container button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        background: #ff6b00;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .auth-container button[type="submit"]:hover {
+        background: #e05d00;
+      }
+
+      .auth-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .auth-links a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .auth-links a:hover {
+        color: #ff6b00;
+      }
+
+      .back-to-store {
+        display: block;
+        margin-top: 30px;
+        text-align: center;
+        color: #666;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .back-to-store:hover {
+        color: #ff6b00;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: #000000;
+        color: white;
+        padding: 30px 0;
+        position: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        padding: 40px 0;
+      }
+
+      .footer-section h3 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: #ff6b00;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-section ul li a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
+
+      .footer-section ul li a i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #ff6b00;
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .newsletter-form button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+
+      /* ===== MOBILE MENU ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        .auth-container {
+          margin: 30px auto;
+          padding: 20px;
         }
       }
-    }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+      <div class="container">
+        <img
+          src="download__14_-removebg-preview.png"
+          alt="SoldOut Logo"
+          class="logo"
+        />
+        <div class="search-bar">
+          <input type="text" placeholder="Search products..." />
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="nav-links">
+          <a href="vendor-login.html" id="vendor-link"
+            ><i class="fas fa-store"></i> Sell</a
+          >
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i> Cart
+            <span class="cart-count">0</span></a
+          >
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </nav>
 
-    // Registration form
-    document.getElementById('vendor-register-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-       alert(s)
+    <!-- Vendor Registration Form -->
+    <div class="container">
+      <div class="auth-container">
+        <h2><i class="fas fa-store"></i> Vendor Registration</h2>
+        <form id="vendor-register-form">
+          <input
+            type="text"
+            id="vendor-first-name"
+            placeholder="First Name"
+            required
+          />
+          <input
+            type="text"
+            id="vendor-last-name"
+            placeholder="Last Name"
+            required
+          />
+          <input
+            type="text"
+            id="vendor-store-name"
+            placeholder="Store Name"
+            required
+          />
+          <input
+            type="email"
+            id="vendor-email"
+            placeholder="Email address"
+            required
+          />
+          <input
+            type="password"
+            id="vendor-password"
+            placeholder="Password"
+            required
+          />
+          <input type="tel" id="vendor-phone" placeholder="Phone Number" />
+          <button type="submit">Register</button>
+        </form>
 
-      const vendorData = {
-        firstName: document.getElementById('vendor-first-name').value,
-        lastName: document.getElementById('vendor-last-name').value,
-        storeName: document.getElementById('vendor-store-name').value,
-        phone: document.getElementById('vendor-phone').value
+        <div class="auth-links">
+          <a href="vendor-login.html">Already have an account? Login</a>
+        </div>
+
+        <a href="index.html" class="back-to-store">← Back to store</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>Shop</h3>
+          <ul>
+            <li>
+              <a href="electronics.html"
+                ><i class="fas fa-mobile-alt"></i> Electronics</a
+              >
+            </li>
+            <li>
+              <a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a>
+            </li>
+            <li>
+              <a href="home-kitchen.html"
+                ><i class="fas fa-home"></i> Home & Kitchen</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Help Center</h3>
+          <ul>
+            <li>
+              <a href="customer-service.html"
+                ><i class="fas fa-headset"></i> Customer Service</a
+              >
+            </li>
+            <li>
+              <a href="track-order.html"
+                ><i class="fas fa-truck"></i> Track Order</a
+              >
+            </li>
+            <li>
+              <a href="retuns.html"
+                ><i class="fas fa-exchange-alt"></i> Returns & Refunds</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <a href="about-us.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="career.html"><i class="fas fa-briefcase"></i> Careers</a>
+            </li>
+            <li>
+              <a href="privacy-policy.html"
+                ><i class="fas fa-lock"></i> Privacy Policy</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <p class="newsletter-text">Subscribe to our newsletter</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2023 SoldOut. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYcJnzYODrfcdkT5qAY6Bo5BTF4--IkQ8",
+        authDomain: "login-d08d2.firebaseapp.com",
+        projectId: "login-d08d2",
+        storageBucket: "login-d08d2.firebasestorage.app",
+        messagingSenderId: "70139036683",
+        appId: "1:70139036683:web:f9d9f2c576f17baa83330e",
       };
-      
-      const email = document.getElementById('vendor-email').value;
-      const password = document.getElementById('vendor-password').value;
-      
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          // Save vendor details to Firestore
-          return db.collection('vendors').doc(userCredential.user.uid).set({
-            ...vendorData,
-            email: email,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            status: 'pending',
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-            authProvider: isGoogleSignIn ? 'google' : 'email'
-          });
-        })
-        .then(() => {
-          // Send email verification for email/password signups
-          if (!isGoogleSignIn) {
-            return auth.currentUser.sendEmailVerification();
-          }
-        })
-        .then(() => {
-          window.location.href = "vendor-dashboard.html";
-        })
-        .catch((error) => {
-          console.error('Registration Error:', error);
-          alert('Registration failed: ' + error.message);
-        });
-    });
 
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
-  </script>
-</body>
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      // Check for Google Sign-In
+      const urlParams = new URLSearchParams(window.location.search);
+      const isGoogleSignIn = urlParams.get("googleSignIn") === "true";
+
+      // Auto-fill form for Google users
+      if (isGoogleSignIn && auth.currentUser) {
+        const user = auth.currentUser;
+        document.getElementById("vendor-email").value = user.email || "";
+        document.getElementById("vendor-email").readOnly = true;
+
+        if (user.displayName) {
+          const names = user.displayName.split(" ");
+          document.getElementById("vendor-first-name").value = names[0] || "";
+          if (names.length > 1) {
+            document.getElementById("vendor-last-name").value = names
+              .slice(1)
+              .join(" ");
+          }
+        }
+      }
+
+      // Registration form
+      document
+        .getElementById("vendor-register-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert(s);
+
+          const vendorData = {
+            firstName: document.getElementById("vendor-first-name").value,
+            lastName: document.getElementById("vendor-last-name").value,
+            storeName: document.getElementById("vendor-store-name").value,
+            phone: document.getElementById("vendor-phone").value,
+          };
+
+          const email = document.getElementById("vendor-email").value;
+          const password = document.getElementById("vendor-password").value;
+
+          auth
+            .createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              // Save vendor details to Firestore
+              return db
+                .collection("vendors")
+                .doc(userCredential.user.uid)
+                .set({
+                  ...vendorData,
+                  email: email,
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                  status: "pending",
+                  lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                  authProvider: isGoogleSignIn ? "google" : "email",
+                });
+            })
+            .then(() => {
+              // Send email verification for email/password signups
+              if (!isGoogleSignIn) {
+                return auth.currentUser.sendEmailVerification();
+              }
+            })
+            .then(() => {
+              window.location.href = "vendor-dashboard.html";
+            })
+            .catch((error) => {
+              console.error("Registration Error:", error);
+              alert("Registration failed: " + error.message);
+            });
+        });
+
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+    </script>
+  </body>
 </html>

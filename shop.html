@@ -3,15 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoldOut | Online Shopping</title>
+    <title>Shop | SoldOut</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <!-- Load React -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <style>
       /* ===== MODERN BASE STYLES ===== */
       :root {
@@ -164,75 +160,143 @@
         cursor: pointer;
       }
 
-      /* ===== HERO BANNER ===== */
-      .hero-banner {
+      /* ===== SHOP PAGE STYLES ===== */
+      .shop-hero {
         background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
         color: white;
         padding: 4rem 0;
-        margin-bottom: 2rem;
-      }
-
-      .banner-content {
         text-align: center;
-        max-width: 800px;
-        margin: 0 auto;
       }
 
-      .banner-content h1 {
+      .shop-hero h1 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
         font-weight: 800;
       }
 
-      .banner-content p {
+      .shop-hero p {
         font-size: 1.25rem;
-        margin-bottom: 2rem;
+        max-width: 800px;
+        margin: 0 auto 2rem;
         opacity: 0.9;
       }
 
-      .banner-btn {
-        background: var(--dark);
+      .shop-categories {
+        padding: 4rem 0;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+        color: var(--dark);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.5rem;
+      }
+
+      .section-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 3px;
+        background: var(--primary);
+      }
+
+      .section-title p {
+        color: var(--text-light);
+        max-width: 700px;
+        margin: 1rem auto 0;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .category-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+      }
+
+      .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+
+      .category-image {
+        height: 200px;
+        background: #f9f9f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .category-image img {
+        max-height: 80%;
+        object-fit: contain;
+        mix-blend-mode: multiply;
+        transition: var(--transition);
+      }
+
+      .category-card:hover .category-image img {
+        transform: scale(1.05);
+      }
+
+      .category-info {
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .category-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+      }
+
+      .category-info p {
+        color: var(--text-light);
+        margin-bottom: 1.5rem;
+      }
+
+      .shop-btn {
+        background: var(--primary);
         color: white;
         border: none;
-        padding: 0.75rem 2rem;
+        padding: 0.75rem 1.5rem;
         border-radius: 4px;
-        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
-        box-shadow: var(--shadow);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
       }
 
-      .banner-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      .shop-btn:hover {
+        background: var(--primary-dark);
       }
 
-      /* ===== FLASH SALE ===== */
-      .countdown-container {
-        background: var(--dark);
-        color: white;
-        padding: 1.5rem;
-        margin: 2rem 0;
+      /* ===== FEATURED PRODUCTS ===== */
+      .featured-products {
+        background: white;
+        padding: 4rem 0;
+        margin: 4rem 0;
         border-radius: 8px;
-        text-align: center;
         box-shadow: var(--shadow);
       }
 
-      .countdown-container h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .countdown-timer {
-        font-size: 1.75rem;
-        font-family: "Courier New", monospace;
-        letter-spacing: 2px;
-        font-weight: 700;
-        color: var(--primary);
-      }
-
-      /* ===== PRODUCT GRID ===== */
       .products-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -335,39 +399,6 @@
         border-radius: 4px;
         font-size: 0.75rem;
         font-weight: 600;
-      }
-
-      /* ===== NOTIFICATION ===== */
-      .notification {
-        position: fixed;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--dark);
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        z-index: 1000;
-        box-shadow: var(--shadow);
-        animation: slideIn 0.3s ease-out;
-      }
-
-      .notification i {
-        color: var(--primary);
-      }
-
-      @keyframes slideIn {
-        from {
-          bottom: -50px;
-          opacity: 0;
-        }
-        to {
-          bottom: 1.5rem;
-          opacity: 1;
-        }
       }
 
       /* ===== FOOTER ===== */
@@ -513,20 +544,24 @@
           margin: 1rem 0;
         }
 
-        .hero-banner {
+        .shop-hero {
           padding: 3rem 0;
         }
 
-        .banner-content h1 {
+        .shop-hero h1 {
           font-size: 2rem;
         }
 
-        .banner-content p {
+        .shop-hero p {
           font-size: 1rem;
         }
       }
 
       @media (max-width: 480px) {
+        .category-grid {
+          grid-template-columns: 1fr;
+        }
+
         .products-grid {
           grid-template-columns: 1fr;
         }
@@ -564,26 +599,152 @@
       <button class="menu-toggle">☰</button>
     </nav>
 
-    <!--- Hero Banner --->
-    <section class="hero-banner">
-      <div class="banner-content">
-        <h1>Summer Sale Up to 50% Off</h1>
-        <p>Discover amazing deals on top brands. Limited time offer!</p>
-        <button class="banner-btn">Shop Now</button>
+    <!-- Shop Hero Section -->
+    <section class="shop-hero">
+      <div class="container">
+        <h1>Explore Our Collections</h1>
+        <p>
+          Discover amazing products across all categories. Quality products at
+          unbeatable prices.
+        </p>
       </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="container">
-      <!-- Flash Sales Section -->
-      <section class="countdown-container">
-        <h2>FLASH SALE ENDS IN</h2>
-        <div class="countdown-timer">24:00:00</div>
-      </section>
+    <!-- Shop Categories -->
+    <section class="shop-categories">
+      <div class="container">
+        <div class="section-title">
+          <h2>Shop By Category</h2>
+          <p>
+            Browse through our wide range of products in different categories
+          </p>
+        </div>
 
-      <!-- React Root for Products Grid -->
-      <div id="products-root"></div>
-    </main>
+        <div class="category-grid">
+          <div class="category-card">
+            <div class="category-image">
+              <img
+                src="https://via.placeholder.com/300x300?text=Electronics"
+                alt="Electronics"
+              />
+            </div>
+            <div class="category-info">
+              <h3>Electronics</h3>
+              <p>
+                Latest gadgets, smartphones, laptops, and accessories for your
+                tech needs
+              </p>
+              <a href="electronics.html" class="shop-btn"
+                ><i class="fas fa-shopping-bag"></i> Shop Now</a
+              >
+            </div>
+          </div>
+
+          <div class="category-card">
+            <div class="category-image">
+              <img
+                src="https://via.placeholder.com/300x300?text=Fashion"
+                alt="Fashion"
+              />
+            </div>
+            <div class="category-info">
+              <h3>Fashion</h3>
+              <p>
+                Trendy clothing, shoes, and accessories for men, women, and kids
+              </p>
+              <a href="fashion.html" class="shop-btn"
+                ><i class="fas fa-shopping-bag"></i> Shop Now</a
+              >
+            </div>
+          </div>
+
+          <div class="category-card">
+            <div class="category-image">
+              <img
+                src="https://via.placeholder.com/300x300?text=Home+Kitchen"
+                alt="Home & Kitchen"
+              />
+            </div>
+            <div class="category-info">
+              <h3>Home & Kitchen</h3>
+              <p>
+                Everything you need to make your home comfortable and your
+                kitchen complete
+              </p>
+              <a href="home-kitchen.html" class="shop-btn"
+                ><i class="fas fa-shopping-bag"></i> Shop Now</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+      <div class="container">
+        <div class="section-title">
+          <h2>Featured Products</h2>
+          <p>Check out our most popular products this season</p>
+        </div>
+
+        <div class="products-grid">
+          <div class="product-card">
+            <div class="product-image">
+              <img
+                src="Screenshot_20250808_114303_Lite.jpg"
+                alt="Wireless Headphones"
+              />
+              <span class="badge">30% OFF</span>
+            </div>
+            <div class="product-info">
+              <h3>Wireless Headphones</h3>
+              <div class="price">
+                <span class="old-price">$129.99</span>
+                <span class="new-price">$89.99</span>
+              </div>
+              <button><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image">
+              <img
+                src="b94b85755c2a86cbe1e0a9938a4df426.jpg"
+                alt="Smart Watch Pro"
+              />
+              <span class="badge">25% OFF</span>
+            </div>
+            <div class="product-info">
+              <h3>Smart Watch Pro</h3>
+              <div class="price">
+                <span class="old-price">$199.99</span>
+                <span class="new-price">$149.99</span>
+              </div>
+              <button><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image">
+              <img
+                src="55c06cbacd89573237bf5ca668a86a09.jpg"
+                alt="Running Shoes"
+              />
+              <span class="badge">HOT</span>
+            </div>
+            <div class="product-info">
+              <h3>Running Shoes</h3>
+              <div class="price">
+                <span class="old-price">$79.99</span>
+                <span class="new-price">$59.99</span>
+              </div>
+              <button><i class="fas fa-cart-plus"></i> Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer>
@@ -668,140 +829,6 @@
       </div>
     </footer>
 
-    <!-- React App Script -->
-    <script type="text/babel">
-      // Sample product data
-      const products = [
-        {
-          id: 1,
-          name: "Wireless Headphones",
-          price: 89.99,
-          oldPrice: 129.99,
-          image: "https://via.placeholder.com/300x300?text=Headphones",
-          badge: "30% OFF",
-        },
-        {
-          id: 2,
-          name: "Smart Watch Pro",
-          price: 149.99,
-          oldPrice: 199.99,
-          image: "https://via.placeholder.com/300x300?text=Smart+Watch",
-          badge: "25% OFF",
-        },
-        {
-          id: 3,
-          name: "Running Shoes",
-          price: 59.99,
-          oldPrice: 79.99,
-          image: "https://via.placeholder.com/300x300?text=Running+Shoes",
-          badge: "HOT",
-        },
-        {
-          id: 4,
-          name: "Bluetooth Speaker",
-          price: 45.99,
-          oldPrice: 69.99,
-          image: "https://via.placeholder.com/300x300?text=Speaker",
-          badge: "33% OFF",
-        },
-        {
-          id: 5,
-          name: "4K Camera",
-          price: 299.99,
-          oldPrice: 399.99,
-          image: "https://via.placeholder.com/300x300?text=Camera",
-          badge: "LIMITED",
-        },
-        {
-          id: 6,
-          name: "Gaming Keyboard",
-          price: 79.99,
-          oldPrice: 99.99,
-          image: "https://via.placeholder.com/300x300?text=Keyboard",
-          badge: "20% OFF",
-        },
-      ];
-
-      // Product Card Component
-      function ProductCard({ product }) {
-        const [cartCount, setCartCount] = React.useState(0);
-
-        const addToCart = () => {
-          setCartCount(cartCount + 1);
-          showNotification(`${product.name} added to cart!`);
-        };
-
-        return (
-          <div className="product-card">
-            <div className="product-image">
-              <img src={product.image} alt={product.name} />
-              {product.badge && <span className="badge">{product.badge}</span>}
-            </div>
-            <div className="product-info">
-              <h3>{product.name}</h3>
-              <div className="price">
-                <span className="old-price">
-                  ${product.oldPrice.toFixed(2)}
-                </span>
-                <span className="new-price">${product.price.toFixed(2)}</span>
-              </div>
-              <button onClick={addToCart}>
-                <i className="fas fa-cart-plus"></i> Add to Cart ({cartCount})
-              </button>
-            </div>
-          </div>
-        );
-      }
-
-      // Notification Component
-      function Notification({ message, visible }) {
-        if (!visible) return null;
-        return (
-          <div className="notification">
-            <i className="fas fa-check-circle"></i>
-            {message}
-          </div>
-        );
-      }
-
-      // Main App Component
-      function App() {
-        const [notification, setNotification] = React.useState({
-          visible: false,
-          message: "",
-        });
-
-        const showNotification = (message) => {
-          setNotification({ visible: true, message });
-          setTimeout(
-            () => setNotification({ visible: false, message: "" }),
-            3000
-          );
-        };
-
-        return (
-          <>
-            <div className="products-grid">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-            <Notification
-              visible={notification.visible}
-              message={notification.message}
-            />
-          </>
-        );
-      }
-
-      // Render React App
-      const root = ReactDOM.createRoot(
-        document.getElementById("products-root")
-      );
-      root.render(<App />);
-    </script>
-
-    <!-- Original JavaScript -->
     <script>
       // Mobile menu toggle
       document
@@ -810,24 +837,9 @@
           document.querySelector(".nav-links").classList.toggle("active");
         });
 
-      // Countdown timer
-      function updateCountdown() {
-        const timer = document.querySelector(".countdown-timer");
-        let time = 24 * 60 * 60; // 24 hours in seconds
-
-        setInterval(() => {
-          time--;
-          const hours = Math.floor(time / 3600);
-          const minutes = Math.floor((time % 3600) / 60);
-          const seconds = time % 60;
-          timer.textContent = `${hours.toString().padStart(2, "0")}:${minutes
-            .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-        }, 1000);
-      }
-      updateCountdown();
-
+      // Update the "Shop Now" button in the main page to link to this shop page
       document.addEventListener("DOMContentLoaded", function () {
+        // This would be in your main index.html file
         const shopNowButtons = document.querySelectorAll(".banner-btn");
         shopNowButtons.forEach((button) => {
           button.addEventListener("click", function () {

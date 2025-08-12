@@ -1,690 +1,757 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog | SoldOut</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ===== BASE STYLES ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    
-    body {
-      background: #f5f5f5;
-      position: relative;
-      padding-bottom: 60px;
-      min-height: 100vh;
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    /* ===== NAVIGATION ===== */
-    .top-nav {
-      background: #ff6b00;
-      padding: 15px 0;
-      position: relative;
-    }
-    
-    .top-nav .container {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-    
-    .logo {
-      height: 40px;
-      width: auto;
-    }
-    
-    .search-bar {
-      flex: 1;
-      min-width: 200px;
-      display: flex;
-      margin: 0 15px;
-    }
-    
-    .search-bar input {
-      width: 100%;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-      font-size: 1rem;
-    }
-    
-    .search-bar button {
-      background: #333;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      cursor: pointer;
-    }
-    
-    /* ===== BLOG STYLES ===== */
-    .blog-header {
-      text-align: center;
-      padding: 60px 0 40px;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/blog-banner.jpg');
-      background-size: cover;
-      background-position: center;
-      color: white;
-      margin-bottom: 40px;
-    }
-    
-    .blog-header h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-    }
-    
-    .blog-header p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    
-    .blog-container {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 40px;
-    }
-    
-    .blog-posts {
-      display: grid;
-      gap: 30px;
-    }
-    
-    .blog-card {
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .blog-image {
-      height: 250px;
-      overflow: hidden;
-    }
-    
-    .blog-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s;
-    }
-    
-    .blog-card:hover .blog-image img {
-      transform: scale(1.05);
-    }
-    
-    .blog-content {
-      padding: 25px;
-    }
-    
-    .blog-meta {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 15px;
-      color: #666;
-      font-size: 0.9rem;
-    }
-    
-    .blog-meta span {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .blog-content h2 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: #333;
-    }
-    
-    .blog-content p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-    
-    .read-more {
-      display: inline-block;
-      padding: 8px 20px;
-      background: #ff6b00;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: background 0.2s;
-    }
-    
-    .read-more:hover {
-      background: #e05d00;
-    }
-    
-    /* Blog Sidebar */
-    .blog-sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-    
-    .sidebar-widget {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .sidebar-widget h3 {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #ff6b00;
-    }
-    
-    .categories-list {
-      list-style: none;
-    }
-    
-    .categories-list li {
-      margin-bottom: 12px;
-    }
-    
-    .categories-list a {
-      color: #555;
-      text-decoration: none;
-      transition: all 0.3s;
-      display: block;
-      padding: 5px 0;
-    }
-    
-    .categories-list a:hover {
-      color: #ff6b00;
-      padding-left: 5px;
-    }
-    
-    .recent-posts {
-      display: grid;
-      gap: 15px;
-    }
-    
-    .recent-post {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    
-    .recent-post img {
-      width: 70px;
-      height: 70px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-    
-    .recent-post h4 {
-      font-size: 0.95rem;
-      margin-bottom: 5px;
-    }
-    
-    .recent-post span {
-      font-size: 0.8rem;
-      color: #666;
-    }
-    
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    
-    .tag {
-      display: inline-block;
-      padding: 5px 12px;
-      background: #f0f0f0;
-      color: #555;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    
-    .tag:hover {
-      background: #ff6b00;
-      color: white;
-    }
-    
-    /* Pagination */
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 40px;
-    }
-    
-    .page-link {
-      display: inline-block;
-      padding: 8px 15px;
-      background: white;
-      color: #333;
-      text-decoration: none;
-      border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-    
-    .page-link:hover, .page-link.active {
-      background: #ff6b00;
-      color: white;
-    }
-    
-    /* ===== MOBILE MENU ===== */
-    @media (max-width: 768px) {
-      .menu-toggle {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog | SoldOut</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* ===== BASE STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      body {
+        background: #f5f5f5;
+        position: relative;
+        padding-bottom: 60px;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
         display: block;
       }
-      
-      .nav-links {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px 0 0;
+
+      /* ===== NAVIGATION ===== */
+      .top-nav {
+        background: #ff6b00;
+        padding: 15px 0;
+        position: relative;
       }
-      
-      .nav-links.active {
-        display: flex;
-      }
-      
+
       .top-nav .container {
-        flex-direction: column;
-        align-items: flex-start;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
       }
-      
+
+      .logo {
+        height: 40px;
+        width: auto;
+      }
+
       .search-bar {
+        flex: 1;
+        min-width: 200px;
+        display: flex;
+        margin: 0 15px;
+      }
+
+      .search-bar input {
         width: 100%;
-        margin: 10px 0;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
       }
-      
-      .blog-container {
-        grid-template-columns: 1fr;
+
+      .search-bar button {
+        background: #333;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
       }
-      
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+      }
+
+      /* ===== BLOG STYLES ===== */
+      .blog-header {
+        text-align: center;
+        padding: 60px 0 40px;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("images/blog-banner.jpg");
+        background-size: cover;
+        background-position: center;
+        color: white;
+        margin-bottom: 40px;
+      }
+
       .blog-header h1 {
-        font-size: 2.2rem;
+        font-size: 2.8rem;
+        margin-bottom: 15px;
       }
-    }
-    
-    /* ===== FOOTER ===== */
-    footer {
-      background: #333;
-      color: white;
-      padding: 30px 0;
-      position: 0;
-      bottom: 0;
-      width: 100%;
-    }
-    
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 40px;
-      padding: 40px 0;
-    }
-    
-    .footer-section h3 {
-      color: white;
-      margin-bottom: 20px;
-      font-size: 1.2rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 50px;
-      height: 2px;
-      background: #ff6b00;
-    }
-    
-    .footer-section ul {
-      list-style: none;
-    }
-    
-    .footer-section ul li {
-      margin-bottom: 12px;
-    }
-    
-    .footer-section ul li a {
-      color: #ccc;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .footer-section ul li a:hover {
-      color: #ff6b00;
-      padding-left: 5px;
-    }
-    
-    .footer-section ul li a i {
-      width: 20px;
-      text-align: center;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    
-    .social-links a {
-      color: white;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-    }
-    
-    .social-links a:hover {
-      color: #ff6b00;
-      transform: translateY(-3px);
-    }
-    
-    .newsletter-form {
-      display: flex;
-      margin-top: 15px;
-    }
-    
-    .newsletter-form input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 4px 0 0 4px;
-    }
-    
-    .newsletter-form button {
-      background: #ff6b00;
-      color: white;
-      border: none;
-      padding: 0 15px;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-    
-    .copyright {
-      text-align: center;
-      padding: 20px 0;
-      border-top: 1px solid #444;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-  <!-- Top Navbar -->
-  <nav class="top-nav">
-    <div class="container">
-      <img src="images/logo.png" alt="SoldOut Logo" class="logo">
-      <div class="search-bar">
-        <input type="text" placeholder="Search products...">
-        <button><i class="fas fa-search"></i></button>
-      </div>
-      <div class="nav-links">
-        <a href="vendor-login.html" id="vendor-link"><i class="fas fa-store"></i> Sell</a>
-        <a href="account.html"><i class="fas fa-user"></i> Account</a>
-        <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count">0</span></a>
-      </div>
-    </div>
-    <button class="menu-toggle">☰</button>
-  </nav>
 
-  <!-- Blog Header -->
-  <header class="blog-header">
-    <div class="container">
-      <h1>SoldOut Blog</h1>
-      <p>Discover the latest trends, shopping tips, and exclusive deals from your favorite online store</p>
-    </div>
-  </header>
+      .blog-header p {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+      }
 
-  <!-- Blog Content -->
-  <main class="container">
-    <div class="blog-container">
-      <div class="blog-posts">
-        <!-- Blog Post 1 -->
-        <article class="blog-card">
-          <div class="blog-image">
-            <img src="images/blog-fashion.jpg" alt="Summer Fashion Trends">
-          </div>
-          <div class="blog-content">
-            <div class="blog-meta">
-              <span><i class="far fa-calendar-alt"></i> June 15, 2023</span>
-              <span><i class="far fa-user"></i> By Sarah Johnson</span>
-              <span><i class="far fa-comment"></i> 12 Comments</span>
-            </div>
-            <h2>Top Summer Fashion Trends You Need This Season</h2>
-            <p>Discover the hottest summer fashion trends that will keep you looking stylish all season long. From bold colors to lightweight fabrics, we've got you covered with the must-have items for your wardrobe.</p>
-            <a href="blog-post.html" class="read-more">Read More</a>
-          </div>
-        </article>
-        
-        <!-- Blog Post 2 -->
-        <article class="blog-card">
-          <div class="blog-image">
-            <img src="images/blog-tech.jpg" alt="Tech Gadgets">
-          </div>
-          <div class="blog-content">
-            <div class="blog-meta">
-              <span><i class="far fa-calendar-alt"></i> June 8, 2023</span>
-              <span><i class="far fa-user"></i> By Michael Chen</span>
-              <span><i class="far fa-comment"></i> 8 Comments</span>
-            </div>
-            <h2>Must-Have Tech Gadgets for Productivity in 2023</h2>
-            <p>Boost your productivity with these innovative tech gadgets. We've tested and selected the best tools to help you work smarter, not harder, whether you're at home or in the office.</p>
-            <a href="blog-post.html" class="read-more">Read More</a>
-          </div>
-        </article>
-        
-        <!-- Blog Post 3 -->
-        <article class="blog-card">
-          <div class="blog-image">
-            <img src="images/blog-home.jpg" alt="Home Organization">
-          </div>
-          <div class="blog-content">
-            <div class="blog-meta">
-              <span><i class="far fa-calendar-alt"></i> May 28, 2023</span>
-              <span><i class="far fa-user"></i> By Emily Wilson</span>
-              <span><i class="far fa-comment"></i> 15 Comments</span>
-            </div>
-            <h2>10 Home Organization Hacks for Small Spaces</h2>
-            <p>Living in a small space doesn't mean you have to feel cramped. These clever organization hacks will help you maximize every square inch of your home while keeping it stylish and functional.</p>
-            <a href="blog-post.html" class="read-more">Read More</a>
-          </div>
-        </article>
-      </div>
-      
-      <!-- Blog Sidebar -->
-      <aside class="blog-sidebar">
-        <div class="sidebar-widget">
-          <h3>Search</h3>
-          <form class="search-bar" style="margin: 0;">
-            <input type="text" placeholder="Search blog...">
-            <button type="submit"><i class="fas fa-search"></i></button>
-          </form>
+      .blog-container {
+        display: grid;
+        grid-template-columns: 1fr 300px;
+        gap: 40px;
+      }
+
+      .blog-posts {
+        display: grid;
+        gap: 30px;
+      }
+
+      .blog-card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .blog-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .blog-image {
+        height: 250px;
+        overflow: hidden;
+      }
+
+      .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+
+      .blog-card:hover .blog-image img {
+        transform: scale(1.05);
+      }
+
+      .blog-content {
+        padding: 25px;
+      }
+
+      .blog-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .blog-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .blog-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .blog-content p {
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .read-more {
+        display: inline-block;
+        padding: 8px 20px;
+        background: #ff6b00;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      .read-more:hover {
+        background: #e05d00;
+      }
+
+      /* Blog Sidebar */
+      .blog-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .sidebar-widget {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .sidebar-widget h3 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ff6b00;
+      }
+
+      .categories-list {
+        list-style: none;
+      }
+
+      .categories-list li {
+        margin-bottom: 12px;
+      }
+
+      .categories-list a {
+        color: #555;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: block;
+        padding: 5px 0;
+      }
+
+      .categories-list a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
+
+      .recent-posts {
+        display: grid;
+        gap: 15px;
+      }
+
+      .recent-post {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .recent-post img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      .recent-post h4 {
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+      }
+
+      .recent-post span {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 5px 12px;
+        background: #f0f0f0;
+        color: #555;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .tag:hover {
+        background: #ff6b00;
+        color: white;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 40px;
+      }
+
+      .page-link {
+        display: inline-block;
+        padding: 8px 15px;
+        background: white;
+        color: #333;
+        text-decoration: none;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s;
+      }
+
+      .page-link:hover,
+      .page-link.active {
+        background: #ff6b00;
+        color: white;
+      }
+
+      /* ===== MOBILE MENU ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 10px;
+          padding: 15px 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 10px 0;
+        }
+
+        .blog-container {
+          grid-template-columns: 1fr;
+        }
+
+        .blog-header h1 {
+          font-size: 2.2rem;
+        }
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: #000000;
+        color: white;
+        padding: 30px 0;
+        position: 0;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        padding: 40px 0;
+      }
+
+      .footer-section h3 {
+        color: white;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: #ff6b00;
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 12px;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-section ul li a:hover {
+        color: #ff6b00;
+        padding-left: 5px;
+      }
+
+      .footer-section ul li a i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        color: #ff6b00;
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 15px;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 4px 0 0 4px;
+      }
+
+      .newsletter-form button {
+        background: #ff6b00;
+        color: white;
+        border: none;
+        padding: 0 15px;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 20px 0;
+        border-top: 1px solid #444;
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <nav class="top-nav">
+      <div class="container">
+        <img
+          src="download__14_-removebg-preview.png"
+          alt="SoldOut Logo"
+          class="logo"
+        />
+        <div class="search-bar">
+          <input type="text" placeholder="Search products..." />
+          <button><i class="fas fa-search"></i></button>
         </div>
-        
-        <div class="sidebar-widget">
-          <h3>Categories</h3>
-          <ul class="categories-list">
-            <li><a href="#">Fashion & Style</a></li>
-            <li><a href="#">Electronics</a></li>
-            <li><a href="#">Home & Living</a></li>
-            <li><a href="#">Beauty & Care</a></li>
-            <li><a href="#">Deals & Promotions</a></li>
-            <li><a href="#">Shopping Tips</a></li>
+        <div class="nav-links">
+          <a href="vendor-login.html" id="vendor-link"
+            ><i class="fas fa-store"></i> Sell</a
+          >
+          <a href="account.html"><i class="fas fa-user"></i> Account</a>
+          <a href="cart.html"
+            ><i class="fas fa-shopping-cart"></i> Cart
+            <span class="cart-count">0</span></a
+          >
+        </div>
+      </div>
+      <button class="menu-toggle">☰</button>
+    </nav>
+
+    <!-- Blog Header -->
+    <header class="blog-header">
+      <div class="container">
+        <h1>SoldOut Blog</h1>
+        <p>
+          Discover the latest trends, shopping tips, and exclusive deals from
+          your favorite online store
+        </p>
+      </div>
+    </header>
+
+    <!-- Blog Content -->
+    <main class="container">
+      <div class="blog-container">
+        <div class="blog-posts">
+          <!-- Blog Post 1 -->
+          <article class="blog-card">
+            <div class="blog-image">
+              <img src="images/blog-fashion.jpg" alt="Summer Fashion Trends" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> June 15, 2023</span>
+                <span><i class="far fa-user"></i> By Sarah Johnson</span>
+                <span><i class="far fa-comment"></i> 12 Comments</span>
+              </div>
+              <h2>Top Summer Fashion Trends You Need This Season</h2>
+              <p>
+                Discover the hottest summer fashion trends that will keep you
+                looking stylish all season long. From bold colors to lightweight
+                fabrics, we've got you covered with the must-have items for your
+                wardrobe.
+              </p>
+              <a href="blog-post.html" class="read-more">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 2 -->
+          <article class="blog-card">
+            <div class="blog-image">
+              <img src="images/blog-tech.jpg" alt="Tech Gadgets" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> June 8, 2023</span>
+                <span><i class="far fa-user"></i> By Michael Chen</span>
+                <span><i class="far fa-comment"></i> 8 Comments</span>
+              </div>
+              <h2>Must-Have Tech Gadgets for Productivity in 2023</h2>
+              <p>
+                Boost your productivity with these innovative tech gadgets.
+                We've tested and selected the best tools to help you work
+                smarter, not harder, whether you're at home or in the office.
+              </p>
+              <a href="blog-post.html" class="read-more">Read More</a>
+            </div>
+          </article>
+
+          <!-- Blog Post 3 -->
+          <article class="blog-card">
+            <div class="blog-image">
+              <img src="images/blog-home.jpg" alt="Home Organization" />
+            </div>
+            <div class="blog-content">
+              <div class="blog-meta">
+                <span><i class="far fa-calendar-alt"></i> May 28, 2023</span>
+                <span><i class="far fa-user"></i> By Emily Wilson</span>
+                <span><i class="far fa-comment"></i> 15 Comments</span>
+              </div>
+              <h2>10 Home Organization Hacks for Small Spaces</h2>
+              <p>
+                Living in a small space doesn't mean you have to feel cramped.
+                These clever organization hacks will help you maximize every
+                square inch of your home while keeping it stylish and
+                functional.
+              </p>
+              <a href="blog-post.html" class="read-more">Read More</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Blog Sidebar -->
+        <aside class="blog-sidebar">
+          <div class="sidebar-widget">
+            <h3>Search</h3>
+            <form class="search-bar" style="margin: 0">
+              <input type="text" placeholder="Search blog..." />
+              <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>Categories</h3>
+            <ul class="categories-list">
+              <li><a href="#">Fashion & Style</a></li>
+              <li><a href="#">Electronics</a></li>
+              <li><a href="#">Home & Living</a></li>
+              <li><a href="#">Beauty & Care</a></li>
+              <li><a href="#">Deals & Promotions</a></li>
+              <li><a href="#">Shopping Tips</a></li>
+            </ul>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>Recent Posts</h3>
+            <div class="recent-posts">
+              <div class="recent-post">
+                <img src="images/blog-recent1.jpg" alt="Recent Post" />
+                <div>
+                  <h4>How to Choose the Perfect Smartphone</h4>
+                  <span>June 5, 2023</span>
+                </div>
+              </div>
+              <div class="recent-post">
+                <img src="images/blog-recent2.jpg" alt="Recent Post" />
+                <div>
+                  <h4>Summer Beauty Essentials</h4>
+                  <span>May 22, 2023</span>
+                </div>
+              </div>
+              <div class="recent-post">
+                <img src="images/blog-recent3.jpg" alt="Recent Post" />
+                <div>
+                  <h4>Minimalist Wardrobe: Less is More</h4>
+                  <span>May 15, 2023</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sidebar-widget">
+            <h3>Tags</h3>
+            <div class="tags">
+              <a href="#" class="tag">fashion</a>
+              <a href="#" class="tag">tech</a>
+              <a href="#" class="tag">home</a>
+              <a href="#" class="tag">beauty</a>
+              <a href="#" class="tag">deals</a>
+              <a href="#" class="tag">tips</a>
+              <a href="#" class="tag">trends</a>
+              <a href="#" class="tag">2023</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <a href="#" class="page-link active">1</a>
+        <a href="#" class="page-link">2</a>
+        <a href="#" class="page-link">3</a>
+        <a href="#" class="page-link"
+          >Next <i class="fas fa-chevron-right"></i
+        ></a>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <div class="footer-section">
+          <h3>Shop</h3>
+          <ul>
+            <li>
+              <a href="electronics.html"
+                ><i class="fas fa-mobile-alt"></i> Electronics</a
+              >
+            </li>
+            <li>
+              <a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a>
+            </li>
+            <li>
+              <a href="home-kitchen.html"
+                ><i class="fas fa-home"></i> Home & Kitchen</a
+              >
+            </li>
           </ul>
         </div>
-        
-        <div class="sidebar-widget">
-          <h3>Recent Posts</h3>
-          <div class="recent-posts">
-            <div class="recent-post">
-              <img src="images/blog-recent1.jpg" alt="Recent Post">
-              <div>
-                <h4>How to Choose the Perfect Smartphone</h4>
-                <span>June 5, 2023</span>
-              </div>
-            </div>
-            <div class="recent-post">
-              <img src="images/blog-recent2.jpg" alt="Recent Post">
-              <div>
-                <h4>Summer Beauty Essentials</h4>
-                <span>May 22, 2023</span>
-              </div>
-            </div>
-            <div class="recent-post">
-              <img src="images/blog-recent3.jpg" alt="Recent Post">
-              <div>
-                <h4>Minimalist Wardrobe: Less is More</h4>
-                <span>May 15, 2023</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="sidebar-widget">
-          <h3>Tags</h3>
-          <div class="tags">
-            <a href="#" class="tag">fashion</a>
-            <a href="#" class="tag">tech</a>
-            <a href="#" class="tag">home</a>
-            <a href="#" class="tag">beauty</a>
-            <a href="#" class="tag">deals</a>
-            <a href="#" class="tag">tips</a>
-            <a href="#" class="tag">trends</a>
-            <a href="#" class="tag">2023</a>
-          </div>
-        </div>
-      </aside>
-    </div>
-    
-    <!-- Pagination -->
-    <div class="pagination">
-      <a href="#" class="page-link active">1</a>
-      <a href="#" class="page-link">2</a>
-      <a href="#" class="page-link">3</a>
-      <a href="#" class="page-link">Next <i class="fas fa-chevron-right"></i></a>
-    </div>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-content">
-      <div class="footer-section">
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="electronics.html"><i class="fas fa-mobile-alt"></i> Electronics</a></li>
-          <li><a href="fashion.html"><i class="fas fa-tshirt"></i> Fashion</a></li>
-          <li><a href="home-kitchen.html"><i class="fas fa-home"></i> Home & Kitchen</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Help Center</h3>
-        <ul>
-          <li><a href="customer-service.html"><i class="fas fa-headset"></i> Customer Service</a></li>
-          <li><a href="track-order.html"><i class="fas fa-truck"></i> Track Order</a></li>
-          <li><a href="retuns.html"><i class="fas fa-exchange-alt"></i> Returns & Refunds</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Company</h3>
-        <ul>
-          <li><a href="about-us.html"><i class="fas fa-info-circle"></i> About Us</a></li>
-          <li><a href="career.html"><i class="fas fa-briefcase"></i> Careers</a></li>
-          <li><a href="privacy-policy.html"><i class="fas fa-lock"></i> Privacy Policy</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Connect With Us</h3>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
+        <div class="footer-section">
+          <h3>Help Center</h3>
+          <ul>
+            <li>
+              <a href="customer-service.html"
+                ><i class="fas fa-headset"></i> Customer Service</a
+              >
+            </li>
+            <li>
+              <a href="track-order.html"
+                ><i class="fas fa-truck"></i> Track Order</a
+              >
+            </li>
+            <li>
+              <a href="retuns.html"
+                ><i class="fas fa-exchange-alt"></i> Returns & Refunds</a
+              >
+            </li>
+          </ul>
         </div>
-        <p class="newsletter-text">Subscribe to our newsletter</p>
-        <form class="newsletter-form">
-          <input type="email" placeholder="Your email address">
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </div>
-    </div>
-    
-    <div class="copyright">
-      <p>&copy; 2023 SoldOut. All rights reserved.</p>
-    </div>
-  </footer>
 
-  <script>
-    // Mobile menu toggle
-    document.querySelector('.menu-toggle').addEventListener('click', function() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    });
-  </script>
-</body>
+        <div class="footer-section">
+          <h3>Company</h3>
+          <ul>
+            <li>
+              <a href="about-us.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="career.html"><i class="fas fa-briefcase"></i> Careers</a>
+            </li>
+            <li>
+              <a href="privacy-policy.html"
+                ><i class="fas fa-lock"></i> Privacy Policy</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <p class="newsletter-text">Subscribe to our newsletter</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your email address" />
+            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="copyright">
+        <p>&copy; 2023 SoldOut. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".nav-links").classList.toggle("active");
+        });
+    </script>
+  </body>
 </html>
