@@ -159,6 +159,20 @@
         font-size: 0.9rem;
       }
 
+      /* Loading spinner */
+      .fa-spinner {
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
       /* Footer styles same as career.html */
       footer {
         background: var(--dark);
@@ -199,7 +213,7 @@
     <div class="container">
       <div class="application-form">
         <div class="form-title">
-          <h2>Application for Frontend Developer</h2>
+          <h2>Application for Position</h2>
           <p>Please fill out the form below to apply for this position</p>
         </div>
 
@@ -255,7 +269,7 @@
           </div>
 
           <div class="form-group">
-            <label>Resume/CV *</label>
+            <label>Resume/CV * (PDF, DOC, DOCX)</label>
             <div class="file-upload">
               <input
                 type="file"
@@ -269,7 +283,9 @@
             </div>
           </div>
 
-          <button type="submit" class="submit-btn">Submit Application</button>
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Submit Application
+          </button>
         </form>
       </div>
     </div>
@@ -375,16 +391,85 @@
           document.querySelector(".file-name").textContent = fileName;
         });
 
+      // Helper function for file conversion
+      async function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result.split(",")[1]);
+          reader.onerror = (error) => reject(error);
+        });
+      }
+
       // Form submission
       document
         .getElementById("career-application")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
-          alert(
-            "Thank you for your application! We will review your information and get back to you soon."
-          );
-          this.reset();
-          document.querySelector(".file-name").textContent = "No file chosen";
+
+          const form = e.target;
+          const formData = new FormData(form);
+          const position =
+            new URLSearchParams(window.location.search).get("position") ||
+            "Unknown Position";
+
+          // Convert FormData to object
+          const formDataObj = {};
+          formData.forEach((value, key) => {
+            formDataObj[key] = value;
+          });
+
+          // Handle file upload
+          if (formDataObj.resume) {
+            formDataObj.resume = {
+              name: formDataObj.resume.name,
+              content: await toBase64(formDataObj.resume),
+            };
+          }
+
+          try {
+            // Show loading state
+            const submitBtn = form.querySelector(".submit-btn");
+            submitBtn.disabled = true;
+            submitBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            // Send to API route
+            const response = await fetch("/api/send-application", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                position,
+                formData: formDataObj,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              throw new Error(result.error || "Failed to submit application");
+            }
+
+            // Show success message
+            alert(
+              "Application submitted successfully! You will receive a confirmation email shortly."
+            );
+            form.reset();
+            document.querySelector(".file-name").textContent = "No file chosen";
+          } catch (error) {
+            console.error("Error:", error);
+            alert(
+              "There was an error submitting your application. Please try again or contact careers@soldout.com for assistance."
+            );
+          } finally {
+            // Reset button state
+            const submitBtn = form.querySelector(".submit-btn");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML =
+              '<i class="fas fa-paper-plane"></i> Submit Application';
+          }
         });
 
       // Get job title from URL parameter
