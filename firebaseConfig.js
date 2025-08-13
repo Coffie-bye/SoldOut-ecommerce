@@ -1,8 +1,3 @@
-// src/lib/firebase.js
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-
 const firebaseConfig = {
   apiKey: "AIzaSyD7U0AZyXP7zBdL3aqrkAxcLOBq-B4kj8I",
   authDomain: "soldout-ecommerce.firebaseapp.com",
@@ -11,7 +6,3 @@ const firebaseConfig = {
   messagingSenderId: "485493986603",
   appId: "1:485493986603:web:4dd0257affc1ddf7f5616e",
 };
-
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);

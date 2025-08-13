@@ -1,204 +1,1037 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vendor Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary: #ff300b;
-      --primary-dark: #f15213;
-      --secondary: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #6c757d;
-      --success: #4cc9f0;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    body {
-      background-color: #f5f7ff;
-      color: var(--dark);
-      min-height: 100vh;
-    }
-    
-    .vendor-bar {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      font-weight: 600;
-      font-size: 1.5rem;
-      color: var(--primary);
-    }
-    
-    .vendor-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .vendor-email {
-      background: var(--primary);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .vendor-email i {
-      font-size: 0.8rem;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    
-    .dashboard-header {
-      margin-bottom: 2rem;
-    }
-    
-    .dashboard-header h1 {
-      color: var(--dark);
-      margin-bottom: 0.5rem;
-    }
-    
-    .dashboard-header p {
-      color: var(--gray);
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .stat-card {
-      background: white;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      transition: transform 0.3s ease;
-    }
-    
-    .stat-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .stat-card h3 {
-      color: var(--gray);
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-card p {
-      font-size: 1.8rem;
-      font-weight: 600;
-      color: var(--primary);
-    }
-    
-    .stat-card.success p {
-      color: var(--success);
-    }
-    
-    .stat-card.danger p {
-      color: var(--secondary);
-    }
-  </style>
-</head>
-<body>
-  <header class="vendor-bar">
-    <div class="logo">MarketPro</div>
-    <div class="vendor-info">
-      <div class="vendor-email" id="vendor-email">
-        <i class="fas fa-user-circle"></i>
-        loading...
-      </div>
-    </div>
-  </header>
-  
-  <main class="container">
-    <div class="dashboard-header">
-      <h1>Vendor Dashboard</h1>
-      <p>Manage your products and view analytics</p>
-    </div>
-    
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>Total Products</h3>
-        <p>24</p>
-      </div>
-      <div class="stat-card success">
-        <h3>Orders Today</h3>
-        <p>8</p>
-      </div>
-      <div class="stat-card">
-        <h3>Total Revenue</h3>
-        <p>$1,245</p>
-      </div>
-      <div class="stat-card danger">
-        <h3>Pending Orders</h3>
-        <p>3</p>
-      </div>
-    </div>
-  </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vendor Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #ff300b;
+        --primary-dark: #f15213;
+        --secondary: #f72585;
+        --light: #f8f9fa;
+        --dark: #212529;
+        --gray: #6c757d;
+        --success: #4cc9f0;
+        --warning: #ffbe0b;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+      }
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-  
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCYcJnzYODrfcdkT5qAY6Bo5BTF4--IkQ8",
-      authDomain: "login-d08d2.firebaseapp.com",
-      projectId: "login-d08d2",
-      storageBucket: "login-d08d2.firebasestorage.app",
-      messagingSenderId: "70139036683",
-      appId: "1:70139036683:web:f9d9f2c576f17baa83330e"
-    };
-    
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    
-    // Check auth state
-    auth.onAuthStateChanged((user) => {
-      const vendorEmail = document.getElementById('vendor-email');
-      
-      if (!user) {
-        window.location.href = "vendor-login.html";
-      } else {
-        // For email/password users, check verification
-        if (user.providerData.some(provider => provider.providerId === 'password')) {
-          if (!user.emailVerified) {
-            window.location.href = "vendor-login.html";
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background-color: #f5f7ff;
+        color: var(--dark);
+        min-height: 100vh;
+      }
+
+      .vendor-bar {
+        background: white;
+        box-shadow: var(--shadow);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-weight: 600;
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+
+      .vendor-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .vendor-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .vendor-email {
+        background: var(--primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .vendor-email i {
+        font-size: 0.8rem;
+      }
+
+      .logout-btn {
+        background: var(--light);
+        color: var(--dark);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .logout-btn:hover {
+        background: #e9ecef;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 2rem;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+        height: fit-content;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+      }
+
+      .sidebar-menu li {
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: var(--dark);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: var(--transition);
+      }
+
+      .sidebar-menu a:hover,
+      .sidebar-menu a.active {
+        background: rgba(255, 48, 11, 0.1);
+        color: var(--primary);
+      }
+
+      .sidebar-menu a i {
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Main Content Styles */
+      .main-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .dashboard-header {
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+      }
+
+      .dashboard-header h1 {
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
+      }
+
+      .dashboard-header p {
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card h3 {
+        color: var(--gray);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .stat-card p {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .stat-card.success p {
+        color: var(--success);
+      }
+
+      .stat-card.danger p {
+        color: var(--secondary);
+      }
+
+      .stat-card.warning p {
+        color: var(--warning);
+      }
+
+      /* Content Sections */
+      .content-section {
+        background: white;
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 1.5rem;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-header h2 {
+        font-size: 1.25rem;
+        color: var(--dark);
+      }
+
+      .btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 48, 11, 0.1);
+      }
+
+      /* Products Table */
+      .products-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .products-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        color: var(--gray);
+        font-weight: 500;
+        font-size: 0.85rem;
+      }
+
+      .products-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+      }
+
+      .products-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .product-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .product-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .product-name {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+
+      .product-category {
+        font-size: 0.8rem;
+        color: var(--gray);
+      }
+
+      .product-stock.in-stock {
+        color: var(--success);
+        font-weight: 500;
+      }
+
+      .product-stock.low-stock {
+        color: var(--warning);
+        font-weight: 500;
+      }
+
+      .product-stock.out-of-stock {
+        color: var(--secondary);
+        font-weight: 500;
+      }
+
+      .action-btn {
+        background: none;
+        border: none;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 0.5rem;
+        border-radius: 50%;
+      }
+
+      .action-btn:hover {
+        background: #f8f9fa;
+        color: var(--primary);
+      }
+
+      /* Form Styles */
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: var(--transition);
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(255, 48, 11, 0.2);
+      }
+
+      textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      /* Modal Styles */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition);
+      }
+
+      .modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(20px);
+        transition: var(--transition);
+      }
+
+      .modal.active .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-header h3 {
+        font-size: 1.25rem;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--gray);
+      }
+
+      .modal-body {
+        padding: 1.5rem;
+      }
+
+      .modal-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 992px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .vendor-bar {
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .vendor-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .products-table {
+          display: block;
+          overflow-x: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="vendor-bar">
+      <div class="logo">MarketPro</div>
+      <div class="vendor-actions">
+        <button class="btn" id="add-product-btn">
+          <i class="fas fa-plus"></i> Add Product
+        </button>
+        <div class="vendor-info">
+          <div class="vendor-email" id="vendor-email">
+            <i class="fas fa-user-circle"></i>
+            loading...
+          </div>
+          <button class="logout-btn" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <aside class="sidebar">
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" class="active"
+              ><i class="fas fa-tachometer-alt"></i> Dashboard</a
+            >
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-box"></i> Products</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-chart-line"></i> Analytics</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-store"></i> Store Settings</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-users"></i> Customers</a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-comments"></i> Reviews</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <section class="dashboard-header">
+          <h1>Vendor Dashboard</h1>
+          <p>Welcome back! Here's what's happening with your store today.</p>
+        </section>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3><i class="fas fa-box"></i> Total Products</h3>
+            <p id="total-products">24</p>
+          </div>
+          <div class="stat-card success">
+            <h3><i class="fas fa-shopping-cart"></i> Orders Today</h3>
+            <p id="today-orders">8</p>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-dollar-sign"></i> Total Revenue</h3>
+            <p id="total-revenue">$1,245</p>
+          </div>
+          <div class="stat-card danger">
+            <h3><i class="fas fa-clock"></i> Pending Orders</h3>
+            <p id="pending-orders">3</p>
+          </div>
+        </div>
+
+        <section class="content-section">
+          <div class="section-header">
+            <h2>Recent Products</h2>
+            <button class="btn" id="view-all-products">
+              <i class="fas fa-eye"></i> View All
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-list">
+                <!-- Products will be loaded here -->
+                <tr>
+                  <td>
+                    <div class="product-info">
+                      <img
+                        src="https://via.placeholder.com/50"
+                        alt="Product"
+                        class="product-img"
+                      />
+                      <div>
+                        <div class="product-name">Wireless Headphones</div>
+                        <div class="product-category">Electronics</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>$99.99</td>
+                  <td>
+                    <span class="product-stock in-stock">In Stock (25)</span>
+                  </td>
+                  <td>
+                    <span class="badge active">Published</span>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="product-info">
+                      <img
+                        src="https://via.placeholder.com/50"
+                        alt="Product"
+                        class="product-img"
+                      />
+                      <div>
+                        <div class="product-name">Smart Watch</div>
+                        <div class="product-category">Electronics</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>$199.99</td>
+                  <td>
+                    <span class="product-stock low-stock">Low Stock (3)</span>
+                  </td>
+                  <td>
+                    <span class="badge active">Published</span>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="product-info">
+                      <img
+                        src="https://via.placeholder.com/50"
+                        alt="Product"
+                        class="product-img"
+                      />
+                      <div>
+                        <div class="product-name">Leather Wallet</div>
+                        <div class="product-category">Accessories</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>$29.99</td>
+                  <td>
+                    <span class="product-stock out-of-stock">Out of Stock</span>
+                  </td>
+                  <td>
+                    <span class="badge">Draft</span>
+                  </td>
+                  <td>
+                    <button class="action-btn" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-header">
+            <h2>Recent Orders</h2>
+            <button class="btn-outline">
+              <i class="fas fa-eye"></i> View All
+            </button>
+          </div>
+          <p>No recent orders</p>
+        </section>
+      </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="product-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Add New Product</h3>
+          <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="product-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="product-name">Product Name</label>
+                <input
+                  type="text"
+                  id="product-name"
+                  class="form-control"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="product-price">Price</label>
+                <input
+                  type="number"
+                  id="product-price"
+                  class="form-control"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="product-category">Category</label>
+                <select id="product-category" class="form-control" required>
+                  <option value="">Select Category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="home">Home & Kitchen</option>
+                  <option value="beauty">Beauty</option>
+                  <option value="sports">Sports</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="product-stock">Stock Quantity</label>
+                <input
+                  type="number"
+                  id="product-stock"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="product-description">Description</label>
+              <textarea
+                id="product-description"
+                class="form-control"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="product-images">Product Images</label>
+              <input
+                type="file"
+                id="product-images"
+                class="form-control"
+                multiple
+                accept="image/*"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="product-status" /> Publish this
+                product
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-outline close-modal">Cancel</button>
+          <button class="btn" id="save-product">Save Product</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYcJnzYODrfcdkT5qAY6Bo5BTF4--IkQ8",
+        authDomain: "login-d08d2.firebaseapp.com",
+        projectId: "login-d08d2",
+        storageBucket: "login-d08d2.firebasestorage.app",
+        messagingSenderId: "70139036683",
+        appId: "1:70139036683:web:f9d9f2c576f17baa83330e",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+      const storage = firebase.storage();
+
+      // DOM Elements
+      const vendorEmail = document.getElementById("vendor-email");
+      const logoutBtn = document.getElementById("logout-btn");
+      const addProductBtn = document.getElementById("add-product-btn");
+      const productModal = document.getElementById("product-modal");
+      const closeModalBtns = document.querySelectorAll(".close-modal");
+      const saveProductBtn = document.getElementById("save-product");
+      const productForm = document.getElementById("product-form");
+      const productsList = document.getElementById("products-list");
+
+      // Modal Functions
+      function openModal() {
+        productModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        productModal.classList.remove("active");
+        document.body.style.overflow = "auto";
+        productForm.reset();
+      }
+
+      // Event Listeners
+      addProductBtn.addEventListener("click", openModal);
+
+      closeModalBtns.forEach((btn) => {
+        btn.addEventListener("click", closeModal);
+      });
+
+      productModal.addEventListener("click", (e) => {
+        if (e.target === productModal) {
+          closeModal();
+        }
+      });
+
+      logoutBtn.addEventListener("click", () => {
+        auth.signOut().then(() => {
+          window.location.href = "vendor-login.html";
+        });
+      });
+
+      saveProductBtn.addEventListener("click", async () => {
+        const productName = document.getElementById("product-name").value;
+        const productPrice = document.getElementById("product-price").value;
+        const productCategory =
+          document.getElementById("product-category").value;
+        const productStock = document.getElementById("product-stock").value;
+        const productDescription = document.getElementById(
+          "product-description"
+        ).value;
+        const productStatus = document.getElementById("product-status").checked;
+        const productImages = document.getElementById("product-images").files;
+
+        if (
+          !productName ||
+          !productPrice ||
+          !productCategory ||
+          !productStock ||
+          !productDescription
+        ) {
+          alert("Please fill all required fields");
+          return;
+        }
+
+        try {
+          saveProductBtn.disabled = true;
+          saveProductBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+          // Get current user
+          const user = auth.currentUser;
+          if (!user) throw new Error("User not authenticated");
+
+          // Upload images if any
+          let imageUrls = [];
+          if (productImages.length > 0) {
+            for (let i = 0; i < productImages.length; i++) {
+              const file = productImages[i];
+              const storageRef = storage.ref(
+                `products/${user.uid}/${Date.now()}_${file.name}`
+              );
+              const snapshot = await storageRef.put(file);
+              const downloadURL = await snapshot.ref.getDownloadURL();
+              imageUrls.push(downloadURL);
+            }
+          }
+
+          // Save product data to Firestore
+          await db.collection("products").add({
+            vendorId: user.uid,
+            name: productName,
+            price: parseFloat(productPrice),
+            category: productCategory,
+            stock: parseInt(productStock),
+            description: productDescription,
+            images: imageUrls,
+            status: productStatus ? "published" : "draft",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+
+          alert("Product added successfully!");
+          closeModal();
+          loadVendorProducts();
+        } catch (error) {
+          console.error("Error adding product:", error);
+          alert("Error adding product: " + error.message);
+        } finally {
+          saveProductBtn.disabled = false;
+          saveProductBtn.innerHTML = "Save Product";
+        }
+      });
+
+      // Load vendor products
+      async function loadVendorProducts() {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+          const querySnapshot = await db
+            .collection("products")
+            .where("vendorId", "==", user.uid)
+            .orderBy("createdAt", "desc")
+            .limit(5)
+            .get();
+
+          productsList.innerHTML = "";
+
+          if (querySnapshot.empty) {
+            productsList.innerHTML =
+              '<tr><td colspan="5" style="text-align:center;">No products found</td></tr>';
             return;
           }
+
+          querySnapshot.forEach((doc) => {
+            const product = doc.data();
+            const row = document.createElement("tr");
+
+            // Determine stock status
+            let stockClass = "in-stock";
+            let stockText = `In Stock (${product.stock})`;
+
+            if (product.stock <= 0) {
+              stockClass = "out-of-stock";
+              stockText = "Out of Stock";
+            } else if (product.stock <= 5) {
+              stockClass = "low-stock";
+              stockText = `Low Stock (${product.stock})`;
+            }
+
+            row.innerHTML = `
+            <td>
+              <div class="product-info">
+                <img src="${
+                  product.images.length > 0
+                    ? product.images[0]
+                    : "https://via.placeholder.com/50"
+                }" alt="${product.name}" class="product-img">
+                <div>
+                  <div class="product-name">${product.name}</div>
+                  <div class="product-category">${
+                    product.category.charAt(0).toUpperCase() +
+                    product.category.slice(1)
+                  }</div>
+                </div>
+              </div>
+            </td>
+            <td>$${product.price.toFixed(2)}</td>
+            <td>
+              <span class="product-stock ${stockClass}">${stockText}</span>
+            </td>
+            <td>
+              <span class="badge ${
+                product.status === "published" ? "active" : ""
+              }">
+                ${product.status === "published" ? "Published" : "Draft"}
+              </span>
+            </td>
+            <td>
+              <button class="action-btn" title="Edit" data-id="${
+                doc.id
+              }"><i class="fas fa-edit"></i></button>
+              <button class="action-btn" title="Delete" data-id="${
+                doc.id
+              }"><i class="fas fa-trash"></i></button>
+            </td>
+          `;
+
+            productsList.appendChild(row);
+          });
+
+          // Update stats
+          const totalProducts = await db
+            .collection("products")
+            .where("vendorId", "==", user.uid)
+            .count()
+            .get();
+
+          document.getElementById("total-products").textContent =
+            totalProducts.data().count;
+        } catch (error) {
+          console.error("Error loading products:", error);
+          productsList.innerHTML =
+            '<tr><td colspan="5" style="text-align:center;color:red;">Error loading products</td></tr>';
         }
-        // Display vendor email
-        vendorEmail.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email}`;
       }
-    });
-  </script>
-</body>
+
+      // Check auth state
+      auth.onAuthStateChanged((user) => {
+        if (!user) {
+          window.location.href = "vendor-login.html";
+        } else {
+          // For email/password users, check verification
+          if (
+            user.providerData.some(
+              (provider) => provider.providerId === "password"
+            )
+          ) {
+            if (!user.emailVerified) {
+              window.location.href = "vendor-login.html";
+              return;
+            }
+          }
+          // Display vendor email
+          vendorEmail.innerHTML = `<i class="fas fa-user-circle"></i> ${user.email}`;
+
+          // Load vendor data
+          loadVendorProducts();
+        }
+      });
+    </script>
+  </body>
 </html>
