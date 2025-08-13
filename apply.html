@@ -9,7 +9,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <style>
-      /* Reuse the same styles from career.html */
+      /* ===== MODERN BASE STYLES ===== */
       :root {
         --primary: #ff6b00;
         --primary-dark: #e05d00;
@@ -37,12 +37,17 @@
 
       .container {
         width: 90%;
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
-        padding: 2rem 0;
       }
 
-      /* Header styles same as career.html */
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* ===== MODERN NAVBAR ===== */
       .top-nav {
         background: var(--dark);
         padding: 1rem 0;
@@ -52,50 +57,200 @@
         box-shadow: var(--shadow);
       }
 
-      /* Application Form Styles */
+      .top-nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+      }
+
+      .logo {
+        height: 2.5rem;
+        filter: brightness(0) invert(1);
+      }
+
+      .search-bar {
+        flex: 1;
+        max-width: 600px;
+        display: flex;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+        transition: var(--transition);
+      }
+
+      .search-bar input:focus {
+        outline: 2px solid var(--primary);
+      }
+
+      .search-bar button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0 1.25rem;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .search-bar button:hover {
+        background: var(--primary-dark);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: var(--transition);
+        padding: 0.5rem 0;
+        position: relative;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: var(--transition);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .cart-count {
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        width: 1.25rem;
+        height: 1.25rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        margin-left: 0.25rem;
+      }
+
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* ===== APPLICATION HERO ===== */
+      .application-hero {
+        background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .application-hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        font-weight: 800;
+      }
+
+      .application-hero p {
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+      }
+
+      /* ===== APPLICATION FORM STYLES ===== */
+      .application-container {
+        max-width: 800px;
+        margin: 0 auto 4rem;
+      }
+
       .application-form {
         background: white;
-        padding: 2rem;
+        padding: 2.5rem;
         border-radius: 8px;
         box-shadow: var(--shadow);
-        margin-top: 2rem;
+        transition: var(--transition);
+      }
+
+      .application-form:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
 
       .form-title {
         text-align: center;
-        margin-bottom: 2rem;
-        color: var(--dark);
+        margin-bottom: 2.5rem;
       }
 
       .form-title h2 {
         font-size: 1.8rem;
-        margin-bottom: 0.5rem;
+        color: var(--dark);
+        margin-bottom: 0.75rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      .form-title h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--primary);
       }
 
       .form-title p {
         color: var(--text-light);
+        font-size: 1.05rem;
       }
 
       .form-group {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.75rem;
       }
 
       .form-group label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        color: var(--dark);
       }
 
       .form-group input,
       .form-group textarea,
       .form-group select {
         width: 100%;
-        padding: 0.75rem;
+        padding: 0.9rem 1rem;
         border: 1px solid #ddd;
-        border-radius: 4px;
+        border-radius: 6px;
         font-family: inherit;
         font-size: 1rem;
         transition: var(--transition);
+        background: rgba(245, 245, 245, 0.3);
       }
 
       .form-group input:focus,
@@ -103,12 +258,13 @@
       .form-group select:focus {
         outline: none;
         border-color: var(--primary);
-        box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+        box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
       }
 
       .form-group textarea {
-        min-height: 150px;
+        min-height: 180px;
         resize: vertical;
+        line-height: 1.7;
       }
 
       .submit-btn {
@@ -116,17 +272,22 @@
         color: white;
         border: none;
         padding: 1rem 2rem;
-        border-radius: 4px;
-        font-size: 1rem;
+        border-radius: 6px;
+        font-size: 1.05rem;
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
         width: 100%;
         margin-top: 1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
       }
 
       .submit-btn:hover {
         background: var(--primary-dark);
+        transform: translateY(-2px);
       }
 
       .file-upload {
@@ -141,22 +302,33 @@
 
       .file-upload label {
         background: var(--gray);
-        padding: 0.75rem 1.5rem;
-        border-radius: 4px;
+        padding: 0.9rem 1.5rem;
+        border-radius: 6px;
         cursor: pointer;
         transition: var(--transition);
         border: 1px dashed #ccc;
         text-align: center;
         flex: 1;
+        font-weight: 500;
+        color: var(--text);
       }
 
       .file-upload label:hover {
         background: #eee;
+        border-color: var(--primary);
+        color: var(--primary);
       }
 
       .file-name {
         color: var(--text-light);
         font-size: 0.9rem;
+        flex: 1;
+      }
+
+      /* Required field indicator */
+      .required::after {
+        content: " *";
+        color: var(--primary);
       }
 
       /* Loading spinner */
@@ -173,17 +345,181 @@
         }
       }
 
-      /* Footer styles same as career.html */
+      /* ===== FOOTER ===== */
       footer {
         background: var(--dark);
         color: white;
         padding: 3rem 0 0;
         margin-top: 3rem;
       }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        padding: 2rem 0;
+      }
+
+      .footer-section h3 {
+        color: white;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+      }
+
+      .footer-section h3::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: var(--primary);
+      }
+
+      .footer-section ul {
+        list-style: none;
+      }
+
+      .footer-section ul li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .footer-section ul li a:hover {
+        color: var(--primary);
+        padding-left: 0.25rem;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin: 1.5rem 0;
+      }
+
+      .social-links a {
+        color: white;
+        font-size: 1.25rem;
+        transition: var(--transition);
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .social-links a:hover {
+        color: var(--primary);
+        background: rgba(255, 107, 0, 0.2);
+        transform: translateY(-3px);
+      }
+
+      .newsletter-form {
+        display: flex;
+        margin-top: 1rem;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 4px 0 0 4px;
+        font-size: 1rem;
+      }
+
+      .newsletter-form button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 0 1.25rem;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .newsletter-form button:hover {
+        background: var(--primary-dark);
+      }
+
+      .copyright {
+        text-align: center;
+        padding: 1.5rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+
+      /* ===== RESPONSIVE DESIGN ===== */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+
+        .nav-links {
+          display: none;
+          width: 100%;
+          flex-direction: column;
+          gap: 0;
+          padding: 1rem 0 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .top-nav .container {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-bar {
+          width: 100%;
+          margin: 1rem 0;
+        }
+
+        .application-hero h1 {
+          font-size: 2rem;
+        }
+
+        .application-hero p {
+          font-size: 1rem;
+        }
+
+        .application-form {
+          padding: 1.5rem;
+        }
+
+        .file-upload {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.75rem;
+        }
+
+        .file-name {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .footer-content {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- Top Navbar (same as career.html) -->
+    <!-- Top Navbar -->
     <nav class="top-nav">
       <div class="container">
         <img
@@ -209,33 +545,71 @@
       <button class="menu-toggle">☰</button>
     </nav>
 
+    <!-- Application Hero -->
+    <section class="application-hero">
+      <div class="container">
+        <h1 id="application-title">Join Our Team</h1>
+        <p>
+          We're excited you're considering a career with SoldOut. Please fill
+          out the form below to apply.
+        </p>
+      </div>
+    </section>
+
     <!-- Application Form -->
-    <div class="container">
+    <div class="container application-container">
       <div class="application-form">
         <div class="form-title">
-          <h2>Application for Position</h2>
-          <p>Please fill out the form below to apply for this position</p>
+          <h2 id="position-title">Application for Position</h2>
+          <p>
+            Please complete all required fields (*) to submit your application
+          </p>
         </div>
 
         <form id="career-application">
           <div class="form-group">
-            <label for="full-name">Full Name *</label>
-            <input type="text" id="full-name" name="full-name" required />
+            <label for="full-name" class="required">Full Name</label>
+            <input
+              type="text"
+              id="full-name"
+              name="full-name"
+              required
+              placeholder="John Doe"
+            />
           </div>
 
           <div class="form-group">
-            <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" required />
+            <label for="email" class="required">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="john.doe@example.com"
+            />
           </div>
 
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" />
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="(123) 456-7890"
+            />
           </div>
 
           <div class="form-group">
-            <label for="location">Location (City, Country) *</label>
-            <input type="text" id="location" name="location" required />
+            <label for="location" class="required"
+              >Location (City, Country)</label
+            >
+            <input
+              type="text"
+              id="location"
+              name="location"
+              required
+              placeholder="San Francisco, USA"
+            />
           </div>
 
           <div class="form-group">
@@ -259,17 +633,17 @@
           </div>
 
           <div class="form-group">
-            <label for="cover-letter">Cover Letter *</label>
+            <label for="cover-letter" class="required">Cover Letter</label>
             <textarea
               id="cover-letter"
               name="cover-letter"
               required
-              placeholder="Tell us why you'd be a great fit for this position..."
+              placeholder="Tell us why you'd be a great fit for this position, highlighting your relevant experience and skills..."
             ></textarea>
           </div>
 
           <div class="form-group">
-            <label>Resume/CV * (PDF, DOC, DOCX)</label>
+            <label class="required">Resume/CV (PDF, DOC, DOCX)</label>
             <div class="file-upload">
               <input
                 type="file"
@@ -278,7 +652,9 @@
                 accept=".pdf,.doc,.docx"
                 required
               />
-              <label for="resume">Choose File</label>
+              <label for="resume"
+                ><i class="fas fa-upload"></i> Choose File</label
+              >
               <span class="file-name">No file chosen</span>
             </div>
           </div>
@@ -290,7 +666,7 @@
       </div>
     </div>
 
-    <!-- Footer (same as career.html) -->
+    <!-- Footer -->
     <footer>
       <div class="container footer-content">
         <div class="footer-section">
@@ -374,7 +750,7 @@
     </footer>
 
     <script>
-      // Mobile menu toggle (same as career.html)
+      // Mobile menu toggle
       document
         .querySelector(".menu-toggle")
         .addEventListener("click", function () {
@@ -401,7 +777,7 @@
         });
       }
 
-      // Form submission
+      // Form submission with Resend API
       document
         .getElementById("career-application")
         .addEventListener("submit", async function (e) {
@@ -419,14 +795,6 @@
             formDataObj[key] = value;
           });
 
-          // Handle file upload
-          if (formDataObj.resume) {
-            formDataObj.resume = {
-              name: formDataObj.resume.name,
-              content: await toBase64(formDataObj.resume),
-            };
-          }
-
           try {
             // Show loading state
             const submitBtn = form.querySelector(".submit-btn");
@@ -434,22 +802,56 @@
             submitBtn.innerHTML =
               '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
-            // Send to API route
-            const response = await fetch("/api/send-application", {
+            // Prepare email content
+            const emailContent = `
+              <h2>New Job Application: ${position}</h2>
+              <p><strong>Name:</strong> ${formDataObj["full-name"]}</p>
+              <p><strong>Email:</strong> ${formDataObj["email"]}</p>
+              <p><strong>Phone:</strong> ${
+                formDataObj["phone"] || "Not provided"
+              }</p>
+              <p><strong>Location:</strong> ${formDataObj["location"]}</p>
+              <p><strong>LinkedIn:</strong> ${
+                formDataObj["linkedin"] || "Not provided"
+              }</p>
+              <p><strong>Portfolio:</strong> ${
+                formDataObj["portfolio"] || "Not provided"
+              }</p>
+              <h3>Cover Letter:</h3>
+              <p>${formDataObj["cover-letter"].replace(/\n/g, "<br>")}</p>
+            `;
+
+            // Prepare attachments if resume exists
+            let attachments = [];
+            if (formDataObj.resume) {
+              attachments = [
+                {
+                  filename: formDataObj.resume.name,
+                  content: await toBase64(formDataObj.resume),
+                },
+              ];
+            }
+
+            // Send email via Resend API
+            const response = await fetch("https://api.resend.com/emails", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                Authorization: "Bearer re_CqTs359S_DrLS3DURHQikfda4X4gDZUBn",
               },
               body: JSON.stringify({
-                position,
-                formData: formDataObj,
+                from: "careers@soldout.com",
+                to: "hr@soldout.com", // Change this to your HR email
+                subject: `New Application for ${position}`,
+                html: emailContent,
+                attachments: attachments,
               }),
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-              throw new Error(result.error || "Failed to submit application");
+              throw new Error(result.message || "Failed to send application");
             }
 
             // Show success message
@@ -461,7 +863,7 @@
           } catch (error) {
             console.error("Error:", error);
             alert(
-              "There was an error submitting your application. Please try again or contact careers@soldout.com for assistance."
+              `There was an error submitting your application: ${error.message}`
             );
           } finally {
             // Reset button state
@@ -472,14 +874,19 @@
           }
         });
 
-      // Get job title from URL parameter
+      // Get job title from URL parameter and update page
       window.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
         const jobTitle = urlParams.get("position");
+
         if (jobTitle) {
-          document.querySelector(
-            ".form-title h2"
-          ).textContent = `Application for ${decodeURIComponent(jobTitle)}`;
+          const decodedTitle = decodeURIComponent(jobTitle);
+          document.getElementById(
+            "position-title"
+          ).textContent = `Application for ${decodedTitle}`;
+          document.getElementById(
+            "application-title"
+          ).textContent = `Apply for ${decodedTitle}`;
         }
       });
     </script>
